@@ -12,7 +12,6 @@ export interface LineItem {
     description?: string
     currentCharges?: number
     percentage?: number
-    amountOwed?: number
 }
 
 export interface LineItemMap {
@@ -35,7 +34,7 @@ const LineItem = (props: LineItemProps) => {
     const { lineItem, setField, setNumberField } = props
     const { id } = lineItem
     const amountOwed = lineItem.currentCharges && lineItem.percentage ? lineItem.currentCharges * lineItem.percentage / 100 : 0
-
+    setField(id, 'amountOwed')
 
     return (<>
         <tr>
@@ -84,17 +83,6 @@ export default class BIllingForm extends React.Component<BIllingFormProps, BIlli
             },
         })
 
-        // const setAmountOwed = (id: number, amountOwed: number) =>
-        // this.setState({
-        //     lineItems: {
-        //         ...this.state.lineItems,
-        //         [id]: {
-        //             ...this.state.lineItems[id],
-        //             amountOwed,
-        //         },
-        //     },
-        // })
-
         const setNumberField = (id: number, field: string) => (e: any) =>
         this.setState({
             lineItems: {
@@ -106,16 +94,10 @@ export default class BIllingForm extends React.Component<BIllingFormProps, BIlli
             },
         })
 
-
     console.log(this.state)
+    const amountOwedArray = values(this.state.lineItems).map((li: LineItem) => li.currentCharges && li.percentage ? li.currentCharges * li.percentage / 100 : 0)
+    const totalAmountOwed = amountOwedArray.reduce((acc: number, num: number) => acc + num)
 
-    const lineItemArray = values(this.state.lineItems)
-    const totalAmountOwed = lineItemArray.reduce(
-        (acc: number, li: LineItem) => {
-            console.log(li)
-            return acc + (li.amountOwed || 0)
-        }, 0
-    )
     return (
       <div>
         <form>
