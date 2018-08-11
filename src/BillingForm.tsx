@@ -1,105 +1,90 @@
-import { values } from 'lodash'
 import * as React from 'react'
+import {
+    Field,
+    Form,
+    Formik,
+} from 'formik'
 import { RecipientOption } from './LandingPage'
+import { values as getValues } from 'lodash'
 
 export interface BIllingFormProps {
     selectedRecipient: RecipientOption | null
 }
 
 export interface LineItem {
-    id: number
-    serviceDateRange?: string
-    description?: string
-    currentCharges?: number
-    percentage?: number
+    id: string
+    serviceDateRange: string
+    description: string
+    currentCharges: number
+    percentage: number
 }
 
 export interface LineItemMap {
-    [lineItemId: number]: LineItem
+    [lineItemId: string]: LineItem
 }
-
-export interface BIllingFormState {
-    lineItems: LineItemMap
-}
-
 
 export interface LineItemProps {
     lineItem: LineItem
-    setField(id: number, field: string): any
-    setNumberField(id: number, field: string): any
+    values: any
+    handleSubmit(values: any): any
+    setFieldValue(field: string, value: any): any
 }
 
+export interface LineItemsProps {
+    values: any
+    handleSubmit(values: any): any
+    setFieldValue(field: string, value: any): any
+}
+
+const getAmountOwed = (values: LineItemMap, id: string): number => values[id].currentCharges * values[id].percentage / 100 || 0
+const getTotalAmountOwed = (values: LineItemMap) => {
+    const lineItems = getValues(values) as LineItem[]
+    return lineItems
+        .map((li: LineItem) => getAmountOwed(values, li.id))
+        .reduce(
+            (acc: number, num: number): number =>
+                acc + num,
+                0,
+        )
+    }
     
 const LineItem = (props: LineItemProps) => {
-    const { lineItem, setField, setNumberField } = props
-    const { id } = lineItem
-    const amountOwed = lineItem.currentCharges && lineItem.percentage ? lineItem.currentCharges * lineItem.percentage / 100 : 0
-    setField(id, 'amountOwed')
+    const { values, setFieldValue, lineItem } = props
+    const id = lineItem.id
+    const setServiceDate = (e: any) => setFieldValue(`[${id}].serviceDateRange`, e.target.value)
+    const setDescription = (e: any) => setFieldValue(`[${id}].description`, e.target.value)
+    const setCurrentCharges = (e: any) => setFieldValue(`[${id}].currentCharges`, parseFloat(e.target.value))
+    const setPercentage = (e: any) => setFieldValue(`[${id}].percentage`, parseFloat(e.target.value))
+    const amountOwed = getAmountOwed(values, id)
+
 
     return (<>
         <tr>
             <td>
-                <input type='text' name='serviceDateRange' onChange={setField(id, 'serviceDateRange')}/>
+                <Field name='serviceDateRange' onChange={setServiceDate} value={values[id].serviceDateRange}/>
             </td>
             <td>
-                <input type='text' name='description' onChange={setField(id, 'description')}/>
+                <Field name='description' onChange={setDescription} value={values[id].description}/>
             </td>
             <td>
-                <input type='text' name='currentCharges' onChange={setNumberField(id, 'currentCharges')}/>
+                <Field name='currentCharges' onChange={setCurrentCharges} value={values[id].currentCharges || 0.00}/>
             </td>
             <td>
-                <input type='text' name='percentage' onChange={setNumberField(id, 'percentage')}/>
+                <Field name='percentage' onChange={setPercentage} value={values[id].percentage || 0}/>
             </td>
             <td className='border'>
                 {amountOwed}
             </td>
         </tr>
-    </>)}
+    </>
+    )
+}
 
-export default class BIllingForm extends React.Component<BIllingFormProps, BIllingFormState> {
-  constructor(props: BIllingFormProps) {
-    super(props);
-
-    this.state = {
-        lineItems: {
-            1: {id: 1},
-            2: {id: 2},
-            3: {id: 3},
-            4: {id: 4},
-        },
-    }
-  }
-
-  public render() {
-    const { lineItems } = this.state
-    const setField = (id: number, field: string) => (e: any) =>
-        this.setState({
-            lineItems: {
-                ...this.state.lineItems,
-                [id]: {
-                    ...this.state.lineItems[id],
-                    [field]: e.target.value,
-                },
-            },
-        })
-
-        const setNumberField = (id: number, field: string) => (e: any) =>
-        this.setState({
-            lineItems: {
-                ...this.state.lineItems,
-                [id]: {
-                    ...this.state.lineItems[id],
-                    [field]: parseFloat(e.target.value),
-                },
-            },
-        })
-
-    console.log(this.state)
-    const amountOwedArray = values(this.state.lineItems).map((li: LineItem) => li.currentCharges && li.percentage ? li.currentCharges * li.percentage / 100 : 0)
-    const totalAmountOwed = amountOwedArray.reduce((acc: number, num: number) => acc + num)
-
+export const LineItems: React.SFC<LineItemsProps> = ({ handleSubmit, values, setFieldValue }) => {
+    const lineItems = getValues(values)
+    
     return (
-      <div>
+    <div>
         <form>
             <table>
                 <thead>
@@ -112,10 +97,11 @@ export default class BIllingForm extends React.Component<BIllingFormProps, BIlli
                     </tr>
                 </thead>
                 <tbody>
-                    {values(lineItems).map((li: LineItem) => <LineItem
+                    {lineItems.map((li: LineItem) => <LineItem
                         key={li.id}
-                        setField={setField}
-                        setNumberField={setNumberField}
+                        values={values}
+                        setFieldValue={setFieldValue}
+                        handleSubmit={handleSubmit}
                         lineItem={li}
                     />)}
                     <tr>
@@ -123,13 +109,73 @@ export default class BIllingForm extends React.Component<BIllingFormProps, BIlli
                         <td/>
                         <td/>
                         <td/>
-                        <td>{totalAmountOwed}</td>
+                        <td>{getTotalAmountOwed(values)}</td>
                     </tr>
                 </tbody>
-                <input type="submit" value="Submit" />
+                <Field type="submit" value="Submit" />
             </table>
         </form>
-      </div>
-    );
-  }
+    </div>)
 }
+
+const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
+    const formValues = {
+        '1':
+            {
+                id: '1',
+                serviceDateRange: '',
+                description: '',
+                currentCharges: 0.00,
+                percentage: 0,
+            },
+        '2':
+            {
+                id: '2',
+                serviceDateRange: '',
+                description: '',
+                currentCharges: 0.00,
+                percentage: 0,
+            },
+        '3':
+            {
+                id: '3',
+                serviceDateRange: '',
+                description: '',
+                currentCharges: 0.00,
+                percentage: 0,
+            },
+        '4':
+            {
+                id: '4',
+                serviceDateRange: '',
+                description: '',
+                currentCharges: 0,
+                percentage: 0,
+            },
+
+    }
+
+
+    const submitForm = () => console.log('SUBMIT')
+    return (
+        <div>
+          <h1>My Example</h1>
+          <Formik
+            initialValues={formValues}
+            onSubmit={submitForm}
+            render={({ values, setFieldValue, handleSubmit }) => (
+                <Form>
+                <LineItems
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    handleSubmit={handleSubmit}
+                />
+                <button type='submit'>Submit</button>
+              </Form>
+            )}
+          />
+        </div>
+      )
+}
+
+export default BIllingForm
