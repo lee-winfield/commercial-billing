@@ -31,3 +31,25 @@
   border-style: solid;
   border-width: 1px;
 }
+.dollars-input {
+  width: 6em;
+  text-align: right;
+}
+
+.cents-input {
+  width: 2em;
+}
+
+.description-input {
+  width: 26em;
+}
+
+.percentage-input {
+  text-align: center;
+  width: 8em;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}

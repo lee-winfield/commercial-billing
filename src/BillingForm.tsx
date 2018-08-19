@@ -53,7 +53,11 @@ const LineItem = (props: LineItemProps) => {
     const id = lineItem.id
     const setServiceDate = (e: any) => setFieldValue(`[${id}].serviceDateRange`, e.target.value)
     const setDescription = (e: any) => setFieldValue(`[${id}].description`, e.target.value)
-    const setCurrentCharges = (e: any) => setFieldValue(`[${id}].currentCharges`, parseFloat(e.target.value))
+    const dollarsAndCentsArray = values[id].currentCharges.toString().split('.')
+    const dollars = parseFloat(dollarsAndCentsArray[0])
+    const cents = dollarsAndCentsArray.length > 1 ? parseFloat(dollarsAndCentsArray[1]) : 0
+    const setCurrentChargesDollars = (e: any) => setFieldValue(`[${id}].currentCharges`, parseFloat(`${e.target.value}.${cents}`))
+    const setCurrentChargesCents = (e: any) => setFieldValue(`[${id}].currentCharges`, parseFloat(`${dollars}.${e.target.value}`))
     const setPercentage = (e: any) => setFieldValue(`[${id}].percentage`, parseFloat(e.target.value))
     const amountOwed = getAmountOwed(values, id)
 
@@ -64,13 +68,14 @@ const LineItem = (props: LineItemProps) => {
                 <Field name='serviceDateRange' onChange={setServiceDate} value={values[id].serviceDateRange}/>
             </td>
             <td>
-                <Field name='description' onChange={setDescription} value={values[id].description}/>
+                <Field className='description-input' name='description' onChange={setDescription} value={values[id].description}/>
             </td>
             <td>
-                <Field name='currentCharges' onChange={setCurrentCharges} value={values[id].currentCharges || 0.00}/>
+                <Field className='dollars-input' name='currentCharges' onChange={setCurrentChargesDollars} value={dollars || 0.00}/>.
+                <Field className='cents-input' name='currentCharges' onChange={setCurrentChargesCents} value={cents || 0.00}/>
             </td>
             <td>
-                <Field name='percentage' onChange={setPercentage} value={values[id].percentage || 0}/>
+                <Field className='percentage-input' name='percentage' onChange={setPercentage} value={values[id].percentage || 0}/>
             </td>
             <td className='border'>
                 {amountOwed}
@@ -112,7 +117,6 @@ export const LineItems: React.SFC<LineItemsProps> = ({ handleSubmit, values, set
                         <td>{getTotalAmountOwed(values)}</td>
                     </tr>
                 </tbody>
-                <Field type="submit" value="Submit" />
             </table>
         </form>
     </div>)
@@ -155,11 +159,10 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
 
     }
 
-
-    const submitForm = () => console.log('SUBMIT')
+    const submitForm = (values: any, actions: any) => console.log('SUBMIT', {values}, {actions})
     return (
-        <div>
-          <h1>My Example</h1>
+        <div className='container'>
+
           <Formik
             initialValues={formValues}
             onSubmit={submitForm}
@@ -170,7 +173,8 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
                     setFieldValue={setFieldValue}
                     handleSubmit={handleSubmit}
                 />
-                <button type='submit'>Submit</button>
+                <Field type="submit" value="Submit" />
+                
               </Form>
             )}
           />
