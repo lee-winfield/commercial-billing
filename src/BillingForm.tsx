@@ -160,6 +160,7 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
     }
 
     const submitForm = (values: any, actions: any) => console.log('SUBMIT', {values}, {actions})
+
     return (
         <div className='container'>
 
