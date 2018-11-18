@@ -3,6 +3,7 @@ import {
     Field,
     Form,
     Formik,
+    FormikActions,
 } from 'formik'
 import { RecipientOption } from './LandingPage'
 import { values as getValues } from 'lodash'
@@ -26,14 +27,19 @@ export interface LineItemMap {
 export interface LineItemProps {
     lineItem: LineItem
     values: any
-    handleSubmit(values: any): any
     setFieldValue(field: string, value: any): any
 }
 
 export interface LineItemsProps {
     values: any
-    handleSubmit(values: any): any
     setFieldValue(field: string, value: any): any
+}
+
+
+const handleSubmit = (values: any, actions: FormikActions<any>) => {
+    console.log(process.env)
+    console.log(actions)
+
 }
 
 const getAmountOwed = (values: LineItemMap, id: string): number => values[id].currentCharges * values[id].percentage / 100 || 0
@@ -85,7 +91,7 @@ const LineItem = (props: LineItemProps) => {
     )
 }
 
-export const LineItems: React.SFC<LineItemsProps> = ({ handleSubmit, values, setFieldValue }) => {
+export const LineItems: React.SFC<LineItemsProps> = ({ values, setFieldValue }) => {
     const lineItems = getValues(values)
     
     return (
@@ -106,7 +112,6 @@ export const LineItems: React.SFC<LineItemsProps> = ({ handleSubmit, values, set
                         key={li.id}
                         values={values}
                         setFieldValue={setFieldValue}
-                        handleSubmit={handleSubmit}
                         lineItem={li}
                     />)}
                     <tr>
@@ -159,20 +164,19 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
 
     }
 
-    const submitForm = (values: any, actions: any) => console.log('SUBMIT', {values}, {actions})
+    // const submitForm = (values: any, actions: any) => console.log('SUBMIT', {values}, {actions})
 
     return (
         <div className='container'>
 
           <Formik
             initialValues={formValues}
-            onSubmit={submitForm}
-            render={({ values, setFieldValue, handleSubmit }) => (
+            onSubmit={handleSubmit}
+            render={({ values, setFieldValue }) => (
                 <Form>
                 <LineItems
                     values={values}
                     setFieldValue={setFieldValue}
-                    handleSubmit={handleSubmit}
                 />
                 <Field type="submit" value="Submit" />
                 
