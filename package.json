@@ -5,6 +5,7 @@
   "dependencies": {
     "@types/lodash": "^4.14.116",
     "@types/react-select": "^2.0.1",
+    "axios": "^0.18.0",
     "firacode": "^1.205.0",
     "formik": "^1.0.2",
     "react": "^16.4.1",

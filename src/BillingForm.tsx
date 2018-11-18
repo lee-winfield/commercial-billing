@@ -7,6 +7,7 @@ import {
 } from 'formik'
 import { RecipientOption } from './LandingPage'
 import { values as getValues } from 'lodash'
+import axios from 'axios'
 
 export interface BIllingFormProps {
     selectedRecipient: RecipientOption | null
@@ -14,11 +15,12 @@ export interface BIllingFormProps {
 
 export interface LineItem {
     id: string
-    serviceDateRange: string
+    serviceDate: string
     description: string
-    currentCharges: number
+    amount: number
     percentage: number
 }
+
 
 export interface LineItemMap {
     [lineItemId: string]: LineItem
@@ -39,10 +41,31 @@ export interface LineItemsProps {
 const handleSubmit = (values: any, actions: FormikActions<any>) => {
     console.log(process.env)
     console.log(actions)
+    const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
+    const body = JSON.stringify({
+        TableName: 'Billing',
+        Item: {
+            lineItems: Object.keys(values).map(k => values[k]),
+            recipientInfo: {
+                name: "Relson Gracie Jiu-Jitsu Cleveland LLC",
+                address1: "4679 Hamann Parkway",
+                address2: "Willoughby, OH 44094",
+                phone: "440-942-7179",
+            },
+            invoiceNum: 460,
+        },
+    })
 
+    axios.post(url, body)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 }
 
-const getAmountOwed = (values: LineItemMap, id: string): number => values[id].currentCharges * values[id].percentage / 100 || 0
+const getAmountOwed = (values: LineItemMap, id: string): number => values[id].amount * values[id].percentage / 100 || 0
 const getTotalAmountOwed = (values: LineItemMap) => {
     const lineItems = getValues(values) as LineItem[]
     return lineItems
@@ -57,13 +80,13 @@ const getTotalAmountOwed = (values: LineItemMap) => {
 const LineItem = (props: LineItemProps) => {
     const { values, setFieldValue, lineItem } = props
     const id = lineItem.id
-    const setServiceDate = (e: any) => setFieldValue(`[${id}].serviceDateRange`, e.target.value)
+    const setServiceDate = (e: any) => setFieldValue(`[${id}].serviceDate`, e.target.value)
     const setDescription = (e: any) => setFieldValue(`[${id}].description`, e.target.value)
-    const dollarsAndCentsArray = values[id].currentCharges.toString().split('.')
+    const dollarsAndCentsArray = values[id].amount.toString().split('.')
     const dollars = parseFloat(dollarsAndCentsArray[0])
     const cents = dollarsAndCentsArray.length > 1 ? parseFloat(dollarsAndCentsArray[1]) : 0
-    const setCurrentChargesDollars = (e: any) => setFieldValue(`[${id}].currentCharges`, parseFloat(`${e.target.value}.${cents}`))
-    const setCurrentChargesCents = (e: any) => setFieldValue(`[${id}].currentCharges`, parseFloat(`${dollars}.${e.target.value}`))
+    const setamountDollars = (e: any) => setFieldValue(`[${id}].amount`, parseFloat(`${e.target.value}.${cents}`))
+    const setamountCents = (e: any) => setFieldValue(`[${id}].amount`, parseFloat(`${dollars}.${e.target.value}`))
     const setPercentage = (e: any) => setFieldValue(`[${id}].percentage`, parseFloat(e.target.value))
     const amountOwed = getAmountOwed(values, id)
 
@@ -71,14 +94,14 @@ const LineItem = (props: LineItemProps) => {
     return (<>
         <tr>
             <td>
-                <Field name='serviceDateRange' onChange={setServiceDate} value={values[id].serviceDateRange}/>
+                <Field name='serviceDate' onChange={setServiceDate} value={values[id].serviceDate}/>
             </td>
             <td>
                 <Field className='description-input' name='description' onChange={setDescription} value={values[id].description}/>
             </td>
             <td>
-                <Field className='dollars-input' name='currentCharges' onChange={setCurrentChargesDollars} value={dollars || 0.00}/>.
-                <Field className='cents-input' name='currentCharges' onChange={setCurrentChargesCents} value={cents || 0.00}/>
+                <Field className='dollars-input' name='amount' onChange={setamountDollars} value={dollars || 0.00}/>.
+                <Field className='cents-input' name='amount' onChange={setamountCents} value={cents || 0.00}/>
             </td>
             <td>
                 <Field className='percentage-input' name='percentage' onChange={setPercentage} value={values[id].percentage || 0}/>
@@ -132,33 +155,33 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
         '1':
             {
                 id: '1',
-                serviceDateRange: '',
+                serviceDate: '',
                 description: '',
-                currentCharges: 0.00,
+                amount: 0.00,
                 percentage: 0,
             },
         '2':
             {
                 id: '2',
-                serviceDateRange: '',
+                serviceDate: '',
                 description: '',
-                currentCharges: 0.00,
+                amount: 0.00,
                 percentage: 0,
             },
         '3':
             {
                 id: '3',
-                serviceDateRange: '',
+                serviceDate: '',
                 description: '',
-                currentCharges: 0.00,
+                amount: 0.00,
                 percentage: 0,
             },
         '4':
             {
                 id: '4',
-                serviceDateRange: '',
+                serviceDate: '',
                 description: '',
-                currentCharges: 0,
+                amount: 0,
                 percentage: 0,
             },
 
