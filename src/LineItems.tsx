@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Field } from 'formik'
 import { values as getValues } from 'lodash'
 
-
 export interface LineItem {
   id: string
   serviceDate: string
@@ -27,6 +26,13 @@ export interface LineItemsProps {
   setFieldValue(field: string, value: any): any
 }
 
+const formatCurrency = (num) => {
+  const roundedNum = Math.round(num * 100).toString()
+  const numDollars = roundedNum.substring(0, roundedNum.length - 2) || '0'
+  const numCents = roundedNum.substring(roundedNum.length - 2)
+
+  return `${numDollars}.${numCents.length === 1 ? numCents + '0' : numCents }`
+}
 
 const getAmountOwed = (values: LineItemMap, id: string): number => values[id].amount * values[id].percentage / 100 || 0
 const getTotalAmountOwed = (values: LineItemMap) => {
@@ -72,7 +78,7 @@ const LineItem = (props: LineItemProps) => {
           <Field className='percentage-input' name='percentage' onChange={setPercentage} value={values[id].percentage || 0}/>
         </td>
         <td className='border'>
-          {amountOwed}
+          {formatCurrency(amountOwed)}
         </td>
       </tr>
     </>
@@ -80,37 +86,37 @@ const LineItem = (props: LineItemProps) => {
 }
 
 export const LineItems: React.SFC<LineItemsProps> = ({ values, setFieldValue }) => {
-    const lineItems = getValues(values)
-    
-    return (
-    <div>
-        <form>
-            <table>
-                <thead>
-                    <tr>
-                        <td>Service Date Range</td>
-                        <td>Description</td>
-                        <td>Current Charges</td>
-                        <td>Percentage</td>
-                        <td>Amount Owed</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lineItems.map((li: LineItem) => <LineItem
-                        key={li.id}
-                        values={values}
-                        setFieldValue={setFieldValue}
-                        lineItem={li}
-                    />)}
-                    <tr>
-                        <td/>
-                        <td/>
-                        <td/>
-                        <td/>
-                        <td>{getTotalAmountOwed(values)}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </form>
-    </div>)
+  const lineItems = getValues(values)
+  
+  return (
+  <div>
+    <form>
+      <table>
+        <thead>
+          <tr>
+            <td>Service Date Range</td>
+            <td>Description</td>
+            <td>Current Charges</td>
+            <td>Percentage</td>
+            <td>Amount Owed</td>
+          </tr>
+        </thead>
+        <tbody>
+          {lineItems.map((li: LineItem) => <LineItem
+            key={li.id}
+            values={values}
+            setFieldValue={setFieldValue}
+            lineItem={li}
+          />)}
+          <tr>
+            <td/>
+            <td/>
+            <td/>
+            <td/>
+            <td>{formatCurrency(getTotalAmountOwed(values))}</td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>)
 }

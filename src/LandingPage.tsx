@@ -3,13 +3,13 @@ import Select from 'react-select'
 import BillingForm from './BillingForm'
 
 export interface RecipientOption {
-    value: string
-    label: string
+  value: string
+  label: string
 }
 
 export interface LandingPageState {
-    selectedRecipient: RecipientOption | null
-    recipientList: RecipientOption[]
+  selectedRecipient: RecipientOption | null
+  recipientList: RecipientOption[]
 }
 
 export default class LandingPage extends React.Component<any, LandingPageState> {
@@ -17,11 +17,11 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
     super(props);
 
     this.state = {
-        recipientList: [
-            { label: 'Relson Gracie', value:'relson_gracie' },
-            { label: 'KD Moore', value: 'kd_moore'}
-        ],
-        selectedRecipient: null,
+      recipientList: [
+        { label: 'Relson Gracie', value:'relson_gracie' },
+        { label: 'KD Moore', value: 'kd_moore'}
+      ],
+      selectedRecipient: null,
     }
   }
 
@@ -31,13 +31,13 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
     return (
       <div>
         <Select
-            value={selectedRecipient}
-            onChange={handleChange}
-            options={recipientList}
-            placeholder={'Select a Bill Recipient...'}
+          value={selectedRecipient}
+          onChange={handleChange}
+          options={recipientList}
+          placeholder={'Select a Bill Recipient...'}
         />
         {selectedRecipient && <BillingForm
-            selectedRecipient={selectedRecipient}
+          selectedRecipient={selectedRecipient}
         />}
       </div>
     );
