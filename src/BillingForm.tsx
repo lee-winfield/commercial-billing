@@ -14,6 +14,7 @@ import { LineItems } from './LineItems'
 
 export interface BIllingFormProps {
   selectedRecipient: RecipientOption | null
+  invoiceNum: number
 }
 
 const getFormattedLineItems = (values: any) =>
@@ -25,7 +26,7 @@ const getFormattedLineItems = (values: any) =>
     return isBlank ? acc : [ ...acc, omit(values[key], ['id'])]
   }, [])
 
-const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
+const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNum }) => {
   const formValues = getFormValues(selectedRecipient.value)
 
   const recipientInfo = getRecipientInfo(selectedRecipient.value)
@@ -34,7 +35,7 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
     const body = JSON.stringify({
       TableName: 'Billing',
       Item: {
-        invoiceNum: 461,
+        invoiceNum,
         lineItems: getFormattedLineItems(values),
         recipientInfo,
       },
@@ -50,22 +51,25 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient }) => {
   }
 
   return (
-    <div className='container'>
-      <Formik
-        initialValues={formValues}
-        onSubmit={handleSubmit}
-        render={({ values, setFieldValue }) => (
-          <Form>
-            <LineItems
-              values={values}
-              setFieldValue={setFieldValue}
-            />
-            <Field type="submit" value="Submit" />
-            
-          </Form>
-        )}
-      />
-    </div>
+    <>
+      <h2>{selectedRecipient.label}</h2>
+      <h3>Invoice number: {invoiceNum}</h3>
+      <div className='container'>
+        <Formik
+          initialValues={formValues}
+          onSubmit={handleSubmit}
+          render={({ values, setFieldValue }) => (
+            <Form>
+              <LineItems
+                values={values}
+                setFieldValue={setFieldValue}
+              />
+              <Field type="submit" value="Submit" />
+            </Form>
+          )}
+        />
+      </div>
+    </>
   )
 }
 

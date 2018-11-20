@@ -37,6 +37,20 @@ const getFormValues = (recipient) => {
       amount: 0,
       percentage,
     },
+    '5': {
+      id: '5',
+      serviceDate: '',
+      description: '',
+      amount: 0,
+      percentage,
+    },
+    '6': {
+      id: '6',
+      serviceDate: '',
+      description: '',
+      amount: 0,
+      percentage,
+    },
   }
 }
 

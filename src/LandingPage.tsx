@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Select from 'react-select'
 import BillingForm from './BillingForm'
+import getNextInvoiceNum from './helpers/getNextInvoiceNum';
 
 export interface RecipientOption {
   value: string
@@ -38,6 +39,7 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
         />
         {selectedRecipient && <BillingForm
           selectedRecipient={selectedRecipient}
+          invoiceNum={getNextInvoiceNum()}
         />}
       </div>
     );
