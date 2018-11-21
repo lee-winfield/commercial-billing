@@ -30,7 +30,7 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNu
   const formValues = getFormValues(selectedRecipient.value)
 
   const recipientInfo = getRecipientInfo(selectedRecipient.value)
-  const handleSubmit = (values: any, actions: FormikActions<any>) => {
+  const handleSubmit = async (values: any, actions: FormikActions<any>) => {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
     const body = JSON.stringify({
       TableName: 'Billing',
@@ -38,16 +38,20 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNu
         invoiceNum,
         lineItems: getFormattedLineItems(values),
         recipientInfo,
+        location: `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`,
       },
     })
+    console.log('here1')
 
-    axios.post(url, body)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    const response = await axios.post(url, body)
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
+    console.log('here2')
+    console.log('here is the response to that post', response)
   }
 
   return (

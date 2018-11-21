@@ -1,3 +1,3 @@
-const getNextInvoiceNum = () => 46
+const getNextInvoiceNum = (bills) => 44
 
 export default getNextInvoiceNum
