@@ -57,18 +57,21 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
 
   public render() {
     const { recipientList, selectedRecipient, bills } = this.state
-    const handleChange = (e: RecipientOption) => this.setState({ selectedRecipient: e })
+    const setSelectedRecipient = (e: RecipientOption) => this.setState({ selectedRecipient: e })
+    const unsetSelectedRecipient = () => this.setState({ selectedRecipient: null })
+
     return (
       <div>
         <Select
           value={selectedRecipient}
-          onChange={handleChange}
+          onChange={setSelectedRecipient}
           options={recipientList}
           placeholder={'Select a Bill Recipient...'}
         />
         {selectedRecipient ? <BillingForm
           selectedRecipient={selectedRecipient}
           invoiceNum={getNextInvoiceNum(bills)}
+          unsetSelectedRecipient={unsetSelectedRecipient}
         /> : <BillList bills={bills}/>}
       </div>
     );

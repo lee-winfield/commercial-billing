@@ -15,6 +15,7 @@ import { LineItems } from './LineItems'
 export interface BIllingFormProps {
   selectedRecipient: RecipientOption | null
   invoiceNum: number
+  unsetSelectedRecipient(): void
 }
 
 const getFormattedLineItems = (values: any) =>
@@ -26,7 +27,7 @@ const getFormattedLineItems = (values: any) =>
     return isBlank ? acc : [ ...acc, omit(values[key], ['id'])]
   }, [])
 
-const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNum }) => {
+const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNum, unsetSelectedRecipient }) => {
   const formValues = getFormValues(selectedRecipient.value)
 
   const recipientInfo = getRecipientInfo(selectedRecipient.value)
@@ -50,6 +51,13 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNu
       // .catch(function (error) {
       //   console.log(error);
       // });
+
+    const link = `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`
+    if (window.confirm('Congratulations! You did a thing!!! Click "ok" to view pdf')) 
+    {
+        window.location.href=link;
+    }
+    unsetSelectedRecipient()
     console.log('here2')
     console.log('here is the response to that post', response)
   }
