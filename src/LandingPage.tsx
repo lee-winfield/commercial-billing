@@ -46,11 +46,8 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
   async componentDidMount() {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
 
-    console.log('here1')
-
     const response = await axios.get(url)
     const bills = get(response, 'data.Items', [])
-    console.log(bills)
 
     this.setState({ bills: bills })
   }
