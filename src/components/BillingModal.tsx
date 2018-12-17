@@ -10,7 +10,7 @@ const BillingModal = ({isBillingModalOpen, bills, closeModal}) => (
   >
     <Modal.Dialog>
       <Modal.Header>
-        <Modal.Title>Modal title</Modal.Title>
+        <Modal.Title>Step 1: Choose Recipeient</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

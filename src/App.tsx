@@ -51,16 +51,18 @@ class App extends React.Component<any, AppState> {
     return (
       <div className="App">
         <Navbar />
-        <Cover />
-        <Cards bills={bills} />
-        <div className='fab' onClick={openModal} >
-          +
+        <div className='app-body'>
+          <Cover />
+          <Cards bills={bills} />
+          <div className='fab' onClick={openModal} >
+            +
+          </div>
+          <BillingModal
+            isBillingModalOpen={isBillingModalOpen}
+            bills={bills}
+            closeModal={closeModal}
+          />
         </div>
-        <BillingModal
-          isBillingModalOpen={isBillingModalOpen}
-          bills={bills}
-          closeModal={closeModal}
-        />
       </div>
     );
   }
