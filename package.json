@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/lodash": "^4.14.116",
-    "@types/react-select": "^2.0.1",
     "axios": "^0.18.0",
     "firacode": "^1.205.0",
     "formik": "^1.0.2",
-    "react": "^16.4.1",
+    "react": "^16.6.3",
+    "react-bootstrap": "^0.32.4",
     "react-currency-input": "^1.3.6",
-    "react-dom": "^16.4.1",
-    "react-scripts-ts": "2.16.0",
+    "react-dom": "^16.6.3",
+    "react-scripts-ts": "^4.0.8",
     "react-select": "^2.0.0",
     "reactstrap": "^6.5.0"
   },
@@ -24,9 +23,17 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
+    "@types/lodash": "^4.14.116",
     "@types/node": "^10.5.4",
-    "@types/react": "^16.4.7",
+    "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.6",
+    "@types/react-select": "^2.0.1",
     "typescript": "^3.0.1"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

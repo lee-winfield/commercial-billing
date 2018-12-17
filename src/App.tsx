@@ -1,11 +1,11 @@
 import * as React from 'react'
 import './App.css'
-import LandingPage from './LandingPage'
 import Navbar from './components/Navbar'
 import Cover from './components/Cover'
 import { get } from 'lodash'
 import axios from 'axios'
 import Cards from './components/Cards'
+import BillingModal from './components/BillingModal';
 
 export interface RecipientInfo {
   address1: string
@@ -22,6 +22,7 @@ export interface Bill {
 
 interface AppState {
   bills: Bill[] | null
+  isBillingModalOpen: boolean
 }
 class App extends React.Component<any, AppState> {
   constructor(props: any) {
@@ -29,6 +30,7 @@ class App extends React.Component<any, AppState> {
 
     this.state = {
       bills: null,
+      isBillingModalOpen: false,
     }
   }
 
@@ -42,17 +44,23 @@ class App extends React.Component<any, AppState> {
   }
 
   public render() {
-    const { bills } = this.state
-
+    const { bills, isBillingModalOpen } = this.state
+    const openModal = () => this.setState({ isBillingModalOpen: true })
+    const closeModal = () => this.setState({ isBillingModalOpen: false })
+    
     return (
       <div className="App">
         <Navbar />
         <Cover />
         <Cards bills={bills} />
-        {/* <LandingPage /> */}
-        <div className='fab' >
+        <div className='fab' onClick={openModal} >
           +
         </div>
+        <BillingModal
+          isBillingModalOpen={isBillingModalOpen}
+          bills={bills}
+          closeModal={closeModal}
+        />
       </div>
     );
   }

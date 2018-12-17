@@ -14,22 +14,14 @@ export interface RecipientOption {
 export interface LandingPageState {
   selectedRecipient: RecipientOption | null
   recipientList: RecipientOption[]
+}
+
+export interface LandingPageProps {
   bills: object[] | null
 }
 
-const BillList = ({ bills }) => (
-  <ul>
-    {map(bills, bill => 
-      (<li>
-        <a href={bill.location} >
-          {`${bill.recipientInfo.name} - ${bill.invoiceNum}`}
-        </a>
-      </li>)
-    )}
-  </ul>
-)
 
-export default class LandingPage extends React.Component<any, LandingPageState> {
+export default class LandingPage extends React.Component<LandingPageProps, LandingPageState> {
   constructor(props: any) {
     super(props);
 
@@ -39,21 +31,12 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
         { label: 'KD Moore', value: 'kd_moore'}
       ],
       selectedRecipient: null,
-      bills: null,
     }
   }
 
-  async componentDidMount() {
-    const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
-
-    const response = await axios.get(url)
-    const bills = get(response, 'data.Items', [])
-
-    this.setState({ bills: bills })
-  }
-
   public render() {
-    const { recipientList, selectedRecipient, bills } = this.state
+    const { bills } = this.props
+    const { recipientList, selectedRecipient } = this.state
     const setSelectedRecipient = (e: RecipientOption) => this.setState({ selectedRecipient: e })
     const unsetSelectedRecipient = () => this.setState({ selectedRecipient: null })
 
@@ -69,7 +52,7 @@ export default class LandingPage extends React.Component<any, LandingPageState> 
           selectedRecipient={selectedRecipient}
           invoiceNum={getNextInvoiceNum(bills)}
           unsetSelectedRecipient={unsetSelectedRecipient}
-        /> : <BillList bills={bills}/>}
+        /> : null}
       </div>
     );
   }
