@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { map } from 'lodash'
 import { Bill } from '../App'
+import { Panel } from 'react-bootstrap'
 
 interface CardsProps {
   bills: Bill[]
@@ -16,17 +17,31 @@ const Card: React.SFC<CardProps> = ({ bill }) => {
 
   return (
     <div className='card'>
-      <div>Invoice: {invoiceNum}</div>
-      <div>Recipient: {recipientInfo.name}</div>
-      <div>Date Created: N/A</div>
+      <h3 className={'card-header'}>
+        <div>Invoice: {invoiceNum}</div>
+      </h3>
+      <div className='card-info'>
+        <strong>
+          {'Recipient: '}
+        </strong>
+        {recipientInfo.name}
+      </div>
+      <div className='card-info'>
+        <strong>
+          {'Date Created: '}
+        </strong>
+        {'N/A'}
+      </div>
     </div>
   )
 }
 
 const Cards: React.SFC<CardsProps> = ({ bills }) => (
-  <div className='card-container' >
-    {map(bills, bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
-  </div>
+  <Panel className='card-panel'>
+    <div className='card-container' >
+      {map(bills, bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
+    </div>
+  </Panel>
 )
 
 export default Cards
