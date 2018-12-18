@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const Cover = () => (
+const Logo = () => (
   <div className='cover'>
     <h3>
       C.J. Winfield Properties
@@ -8,4 +8,4 @@ const Cover = () => (
   </div>
 )
 
-export default Cover
+export default Logo

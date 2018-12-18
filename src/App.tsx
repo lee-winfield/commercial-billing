@@ -1,11 +1,11 @@
 import * as React from 'react'
 import './App.css'
 import Navbar from './components/Navbar'
-import Cover from './components/Cover'
+import Logo from './components/Logo'
 import { get } from 'lodash'
 import axios from 'axios'
 import Cards from './components/Cards'
-import BillingModal from './components/BillingModal';
+import BillingModal from './components/BillingModal'
 
 export interface RecipientInfo {
   address1: string
@@ -52,7 +52,7 @@ class App extends React.Component<any, AppState> {
       <div className="App">
         <Navbar />
         <div className='app-body'>
-          <Cover />
+          <Logo />
           <Cards bills={bills} />
           <div className='fab' onClick={openModal} >
             +
