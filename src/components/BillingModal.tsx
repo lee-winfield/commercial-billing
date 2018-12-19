@@ -83,7 +83,20 @@ class BillingModal extends React.Component<any, any> {
       },
     ]
 
-    const recipients = []
+    const recipients = [
+      {
+        name: 'C.J. Winfield Properties',
+        id: 0,
+        percentage: 22,
+        included: true,
+      },
+      {
+        name: 'Relson Gracie Jiu Jitsu',
+        id: 1,
+        percentage: 56,
+        included: true,
+      },
+    ]
 
     const formValues = {
       sources,

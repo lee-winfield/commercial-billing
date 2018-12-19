@@ -13,7 +13,6 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
     setFieldValue(`sources[${index}].name`, e.target.value)
   }
   const setAmount = (e) => {
-    console.log(e)
     setFieldValue(`sources[${index}].amount`, e.target.value)
   }
 
