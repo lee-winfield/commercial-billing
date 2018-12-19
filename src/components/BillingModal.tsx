@@ -50,7 +50,45 @@ class BillingModal extends React.Component<any, any> {
       </>
     )
 
-    const formValues = {}
+    const sources = [
+      {
+        id: 0,
+        name: 'Dominion',
+        value: true,
+        amount: 0,
+      },
+      {
+        id: 1,
+        name: 'Illuminating',
+        value: true,
+        amount: 0,
+      },
+      {
+        id: 2,
+        name: 'Waste Management',
+        value: true,
+        amount: 0,
+      },
+      {
+        id: 3,
+        name: '',
+        value: false,
+        amount: 0,
+      },
+      {
+        id: 4,
+        name: '',
+        value: false,
+        amount: 0,
+      },
+    ]
+
+    const recipients = []
+
+    const formValues = {
+      sources,
+      recipients, 
+    }
     const handleSubmit = () => console.log('submitting')
 
     return (

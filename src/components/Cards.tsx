@@ -12,7 +12,6 @@ interface CardProps {
 }
 
 const Card: React.SFC<CardProps> = ({ bill }) => {
-  console.log({bill})
   const { invoiceNum, location, recipientInfo } = bill
 
   return (

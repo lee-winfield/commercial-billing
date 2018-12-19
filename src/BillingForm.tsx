@@ -42,15 +42,9 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNu
         location: `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`,
       },
     })
-    console.log('here1')
 
     const response = await axios.post(url, body)
-      // .then(function (response) {
-      //   console.log(response);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+
 
     const link = `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`
     if (window.confirm('Congratulations! You did a thing!!! Click "ok" to view pdf')) 
@@ -58,8 +52,7 @@ const BIllingForm: React.SFC<BIllingFormProps> = ({ selectedRecipient, invoiceNu
         window.location.href=link;
     }
     unsetSelectedRecipient()
-    console.log('here2')
-    console.log('here is the response to that post', response)
+
   }
 
   return (
