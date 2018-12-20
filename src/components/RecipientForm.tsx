@@ -14,10 +14,12 @@ const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disa
   }
 
   return disabled ? null : (
-    <div>
+    <div className='allocation'>
       <br/>
       <input type='checkbox' value={`${recipientId}-${sourceId}`} checked={allocated} onChange={toggleCheckBox} />
-      {source.name}
+      <span>
+        {source.name}
+      </span>
       <input type='number' value={percentage} onChange={setPercentage} disabled={!allocated} />
       <br/>
     </div>
@@ -27,7 +29,7 @@ const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disa
 const AllocationInputs = ({ disabled, allocations, recipientId, recipientIndex, values, setFieldValue }) => {
 
   return (
-    <>
+    <div className='allocation-inputs'>
       {allocations.map( allocation => (
         <Allocation
           key={`${recipientId}-${allocation.sourceId}`}
@@ -40,7 +42,7 @@ const AllocationInputs = ({ disabled, allocations, recipientId, recipientIndex, 
           values={values}
         />
       ))}
-    </>
+    </div>
   )
 }
 
@@ -55,9 +57,11 @@ const RecipientInputs = ({ recipient, setFieldValue, values }) => {
 
 
   return (
-    <>
+    <div className='recipient-inputs'>
       <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
-      {name}
+      <span>
+        {name}
+      </span>
       <AllocationInputs
         disabled={!included}
         allocations={allocations}
@@ -67,13 +71,13 @@ const RecipientInputs = ({ recipient, setFieldValue, values }) => {
         values={values}
       />
       <br/>
-    </>
+    </div>
   )
 }
 const RecipientForm = ({ values, setFieldValue }) => {
   const { recipients } = values
 
-  return (<>
+  return (<div className='recipient-inputs-container'>
     {recipients.map(
       recipient => (<RecipientInputs
         key={recipient.id}
@@ -82,7 +86,7 @@ const RecipientForm = ({ values, setFieldValue }) => {
         values={values}
       />)
     )}
-  </>)
+  </div>)
 }
 
 export default  RecipientForm

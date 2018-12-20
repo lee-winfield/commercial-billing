@@ -35,17 +35,27 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
   }
 
   return (
-    <div>
-      <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
-      <input type='text' value={name} onChange={setName} disabled={!included} />
-      <input type='number' value={amount} onChange={setAmount} disabled={!included} />
-      <br/>
-    </div>
+    <tr>
+      <td>
+        <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
+      </td>
+      <td>
+        <input type='text' value={name} onChange={setName} disabled={!included} />
+      </td>
+      <td>
+        <input type='number' value={amount} onChange={setAmount} disabled={!included} />
+      </td>
+    </tr>
   )
 }
 const BillSourceForm = ({ values, setFieldValue }) => {
   const { sources } = values
-  return (<>
+  return (<table className='bill-source-container'>
+    <tr>
+      <th>Included</th>
+      <th>Bill Source</th>
+      <th>Total Charged</th>
+    </tr>
     {sources.map(
       billSource => (<BillSourceInputs
         key={billSource.id}
@@ -54,7 +64,7 @@ const BillSourceForm = ({ values, setFieldValue }) => {
         values={values}
       />)
     )}
-  </>)
+  </table>)
 }
 
 export default BillSourceForm
