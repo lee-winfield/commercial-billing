@@ -87,14 +87,48 @@ class BillingModal extends React.Component<any, any> {
       {
         name: 'C.J. Winfield Properties',
         id: 0,
-        percentage: 22,
+        defaultPercentage: 22,
         included: true,
+        allocations: [
+          {
+            sourceId: 0,
+            allocated: true,
+            percentage: 22,
+          },
+          {
+            sourceId: 1,
+            allocated: true,
+            percentage: 22,
+          },
+          {
+            sourceId: 2,
+            allocated: true,
+            percentage: 22,
+          },
+        ],
       },
       {
         name: 'Relson Gracie Jiu Jitsu',
         id: 1,
-        percentage: 56,
+        defaultPercentage: 56,
         included: true,
+        allocations: [
+          {
+            sourceId: 0,
+            allocated: true,
+            percentage: 56,
+          },
+          {
+            sourceId: 1,
+            allocated: true,
+            percentage: 56,
+          },
+          {
+            sourceId: 2,
+            allocated: true,
+            percentage: 56,
+          },
+        ],
       },
     ]
 

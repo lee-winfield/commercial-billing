@@ -1,12 +1,30 @@
 import * as React from 'react'
-import { findIndex } from 'lodash'
+import { findIndex, filter } from 'lodash'
 
 
 const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
   const { id, name, value, amount } = billSource
 
   const index = findIndex(values.sources, ['id', id])
+  const updateAllocations = () => {
+    if (!value) {
+      values.recipients.forEach(recipient => {
+        const { allocations, defaultPercentage } = recipient
+        const recipientIndex = findIndex(values.recipients, ['id', recipient.id])
+        const updatedAllocations = [...allocations, { sourceId: id, allocated: true, percentage: defaultPercentage } ]
+        setFieldValue(`recipients[${recipientIndex}].allocations`, updatedAllocations)
+      })
+    } else {
+      values.recipients.forEach(recipient => {
+        const { allocations } = recipient
+        const recipientIndex = findIndex(values.recipients, ['id', recipient.id])
+        const updatedAllocations = filter(allocations, ({ sourceId }) => sourceId !== id)
+        setFieldValue(`recipients[${recipientIndex}].allocations`, updatedAllocations)
+      }) 
+    }
+  }
   const toggleCheckBox = () => {
+    updateAllocations()
     setFieldValue(`sources[${index}].value`, !value )
   }
   const setName = (e) => {
