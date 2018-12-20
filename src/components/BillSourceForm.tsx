@@ -3,11 +3,11 @@ import { findIndex, filter } from 'lodash'
 
 
 const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
-  const { id, name, value, amount } = billSource
+  const { id, name, included, amount } = billSource
 
   const index = findIndex(values.sources, ['id', id])
   const updateAllocations = () => {
-    if (!value) {
+    if (!included) {
       values.recipients.forEach(recipient => {
         const { allocations, defaultPercentage } = recipient
         const recipientIndex = findIndex(values.recipients, ['id', recipient.id])
@@ -25,7 +25,7 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
   }
   const toggleCheckBox = () => {
     updateAllocations()
-    setFieldValue(`sources[${index}].value`, !value )
+    setFieldValue(`sources[${index}].included`, !included )
   }
   const setName = (e) => {
     setFieldValue(`sources[${index}].name`, e.target.value)
@@ -36,9 +36,9 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
 
   return (
     <div>
-      <input type='checkbox' value={id} checked={value} onChange={toggleCheckBox} />
-      <input type='text' value={name} onChange={setName} disabled={!value} />
-      <input type='number' value={amount} onChange={setAmount} disabled={!value} />
+      <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
+      <input type='text' value={name} onChange={setName} disabled={!included} />
+      <input type='number' value={amount} onChange={setAmount} disabled={!included} />
       <br/>
     </div>
   )

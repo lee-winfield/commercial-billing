@@ -54,31 +54,31 @@ class BillingModal extends React.Component<any, any> {
       {
         id: 0,
         name: 'Dominion',
-        value: true,
+        included: true,
         amount: 0,
       },
       {
         id: 1,
         name: 'Illuminating',
-        value: true,
+        included: true,
         amount: 0,
       },
       {
         id: 2,
         name: 'Waste Management',
-        value: true,
+        included: true,
         amount: 0,
       },
       {
         id: 3,
         name: '',
-        value: false,
+        included: false,
         amount: 0,
       },
       {
         id: 4,
         name: '',
-        value: false,
+        included: false,
         amount: 0,
       },
     ]
