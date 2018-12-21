@@ -3,7 +3,7 @@ import { findIndex, filter } from 'lodash'
 
 
 const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
-  const { id, name, included, amount } = billSource
+  const { id, serviceDate, name, included, amount } = billSource
 
   const index = findIndex(values.sources, ['id', id])
   const updateAllocations = () => {
@@ -30,6 +30,9 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
   const setName = (e) => {
     setFieldValue(`sources[${index}].name`, e.target.value)
   }
+  const setServiceDate = (e) => {
+    setFieldValue(`sources[${index}].serviceDate`, e.target.value)
+  }
   const setAmount = (e) => {
     setFieldValue(`sources[${index}].amount`, e.target.value)
   }
@@ -38,6 +41,9 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
     <tr>
       <td>
         <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
+      </td>
+      <td>
+        <input type='text' value={serviceDate} onChange={setServiceDate} disabled={!included} />
       </td>
       <td>
         <input type='text' value={name} onChange={setName} disabled={!included} />
@@ -53,6 +59,7 @@ const BillSourceForm = ({ values, setFieldValue }) => {
   return (<table className='bill-source-container'>
     <tr>
       <th>Included</th>
+      <th>Service Date Range</th>
       <th>Bill Source</th>
       <th>Total Charged</th>
     </tr>
