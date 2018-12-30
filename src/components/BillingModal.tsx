@@ -60,14 +60,14 @@ class BillingModal extends React.Component<any, any> {
     const handleSubmit = async (values: any, actions: FormikActions<any>) => {
       const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
       const documents = formatValuesForDocuments(values, nextInvoiceNum)
-      documents.forEach(async ({ invoiceNum, lineItems, recipientInfo, location }) => {
+      await documents.forEach(async ({ invoiceNum, lineItems, recipientInfo, location, createdOn }) => {
         const body = JSON.stringify({
           TableName: 'Billing',
           Item: {
-            invoiceNum, lineItems, recipientInfo, location,
+            invoiceNum, lineItems, recipientInfo, location, createdOn,
           },
         })
-    
+        console.log(body)
         const response = await axios.post(url, body)
         console.log(response)
       })

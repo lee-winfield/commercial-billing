@@ -41,6 +41,7 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
       lineItems,
       recipientInfo,
       location,
+      createdOn: new Date(),
     }
 
 

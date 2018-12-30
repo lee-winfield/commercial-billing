@@ -32,7 +32,7 @@ class Card extends React.Component<any, any> {
 
   render() {
     const { bill } = this.props
-    const { invoiceNum, location, recipientInfo } = bill
+    const { invoiceNum, location, recipientInfo, createdOn } = bill
     const handleClick = () => {
       console.log(bill)
       this.openModal()
@@ -57,7 +57,7 @@ class Card extends React.Component<any, any> {
             <strong>
               {'Date Created: '}
             </strong>
-            {'N/A'}
+            {createdOn ? new Date(createdOn).toDateString() : 'N/A'}
           </div>
           <div className='download'>
             <a href={location}>Download</a>
