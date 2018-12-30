@@ -34,7 +34,7 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
     const invoiceNum = nextInvoiceNum + index
     const lineItems = generateLineItems()
     const recipientInfo = { name, address1, address2, phone }
-    const location = `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`
+    const location = `https://s3.us-east-2.amazonaws.com/cjwinfield/${name}/${invoiceNum}.pdf`
     
     const document = {
       invoiceNum,

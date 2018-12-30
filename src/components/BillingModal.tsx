@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import LandingPage from '../LandingPage'
-import { Formik, Form } from 'formik';
+import axios from 'axios'
+import { Formik, Form, FormikActions } from 'formik';
 import BillSourceForm from './BillSourceForm';
 import RecipientForm from './RecipientForm';
 import Confirmation from './Confirmation';
@@ -55,8 +56,22 @@ class BillingModal extends React.Component<any, any> {
       sources,
       recipients, 
     }
-    const handleSubmit = (values) => {
-      console.log('submitting documents: ', formatValuesForDocuments(values, nextInvoiceNum))
+
+
+    const handleSubmit = async (values: any, actions: FormikActions<any>) => {
+      const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
+      const documents = formatValuesForDocuments(values, nextInvoiceNum)
+      documents.forEach(async ({ invoiceNum, lineItems, recipientInfo, location }) => {
+        const body = JSON.stringify({
+          TableName: 'Billing',
+          Item: {
+            invoiceNum, lineItems, recipientInfo, location,
+          },
+        })
+    
+        const response = await axios.post(url, body)
+        console.log(response)
+      })
       closeModal()
     }
 
