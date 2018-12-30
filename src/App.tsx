@@ -2,7 +2,7 @@ import * as React from 'react'
 import './App.css'
 import Navbar from './components/Navbar'
 import Logo from './components/Logo'
-import { get } from 'lodash'
+import { get, sortBy } from 'lodash'
 import axios from 'axios'
 import Cards from './components/Cards'
 import BillingModal from './components/BillingModal'
@@ -45,7 +45,7 @@ class App extends React.Component<any, AppState> {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
 
     const response = await axios.get(url)
-    const bills = get(response, 'data.Items', [])
+    const bills = sortBy(get(response, 'data.Items', []), ['invoiceNum'])
     const recipients = getRecipients()
     const sources = getSources()
     this.setState({ bills, recipients, sources })

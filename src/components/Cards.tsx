@@ -13,9 +13,10 @@ interface CardProps {
 
 const Card: React.SFC<CardProps> = ({ bill }) => {
   const { invoiceNum, location, recipientInfo } = bill
+  const handleClick = () => console.log(location)
 
   return (
-    <div className='card'>
+    <div className='card' onClick={handleClick}>
       <h3 className={'card-header'}>
         <div>Invoice: {invoiceNum}</div>
       </h3>
