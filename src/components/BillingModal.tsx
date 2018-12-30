@@ -27,7 +27,7 @@ class BillingModal extends React.Component<any, any> {
       3: 'Step 3: Confirmation',
     }
     const Stepper = ({ values, setFieldValue }) => {
-      const documents = formatValuesForDocuments(values)
+      const documents = formatValuesForDocuments(values, nextInvoiceNum)
       switch (step) {
         case 1: return (
           <BillSourceForm values={values} setFieldValue={setFieldValue} />

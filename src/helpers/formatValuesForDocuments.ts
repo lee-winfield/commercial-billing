@@ -1,9 +1,9 @@
 import { reduce, find, map } from 'lodash'
 
-const formatValuesForDocuments = values => {
+const formatValuesForDocuments = (values, nextInvoiceNum ) => {
   const { recipients, sources } = values
   
-  const makeDocumentForRecipient = recipient => {
+  const makeDocumentForRecipient = (recipient, index) => {
     const { allocations } = recipient
     const generateLineItems = () => 
       reduce(allocations, (acc, allocation) => {
@@ -30,7 +30,7 @@ const formatValuesForDocuments = values => {
       }, [])
     
 
-    const invoiceNum = 1
+    const invoiceNum = nextInvoiceNum + index
     const lineItems = generateLineItems()
     const recipientInfo = {}
     const location = `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`
