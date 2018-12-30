@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { Table } from 'react-bootstrap'
-import { map } from 'lodash'
+import { map, reduce } from 'lodash'
 
 const TablePreview = ({ document }) => {
   const { lineItems, invoiceNum, recipientInfo } = document
   const { name: recipientName } = recipientInfo
+  const totalBill = reduce(lineItems, (acc, { recipientCharge }) => acc + recipientCharge, 0)
 
   return <div className="table-preview">
     <h3>
@@ -30,6 +31,13 @@ const TablePreview = ({ document }) => {
             <td>{recipientCharge}</td>
           </tr>
         ))}
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{totalBill}</td>
+        </tr>
       </tbody>
     </Table>
   </div>
