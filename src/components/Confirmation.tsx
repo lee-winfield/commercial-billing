@@ -15,7 +15,7 @@ const LineItem = ({ lineItem } ) => {
   )
 }
 
-const TablePreview = ({ document }) => {
+export const TablePreview = ({ document }) => {
   const { lineItems, invoiceNum, recipientInfo } = document
   const { name: recipientName } = recipientInfo
   const totalBill = reduce(lineItems, (acc, { recipientCharge }) => acc + recipientCharge, 0)

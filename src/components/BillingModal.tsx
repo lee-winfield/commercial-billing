@@ -10,7 +10,7 @@ import formatValuesForDocuments from '../helpers/formatValuesForDocuments';
 class BillingModal extends React.Component<any, any> {
   constructor(props) {
     super(props)
-    this.state ={
+    this.state = {
       step: 1,
     }
   }
