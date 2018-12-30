@@ -2,6 +2,19 @@ import * as React from 'react'
 import { Table } from 'react-bootstrap'
 import { map, reduce } from 'lodash'
 
+const LineItem = ({ lineItem } ) => {
+  const {serviceDate, name, amount, percentage, recipientCharge} = lineItem
+  return (
+    <tr>
+      <td>{serviceDate}</td>
+      <td>{name}</td>
+      <td>{amount}</td>
+      <td>{percentage}%</td>
+      <td>{recipientCharge}</td>
+    </tr>
+  )
+}
+
 const TablePreview = ({ document }) => {
   const { lineItems, invoiceNum, recipientInfo } = document
   const { name: recipientName } = recipientInfo
@@ -22,15 +35,13 @@ const TablePreview = ({ document }) => {
         </tr>
       </thead>
       <tbody>
-        {map(lineItems, ({serviceDate, name, amount, percentage, recipientCharge}) => (
-          <tr>
-            <td>{serviceDate}</td>
-            <td>{name}</td>
-            <td>{amount}</td>
-            <td>{percentage}%</td>
-            <td>{recipientCharge}</td>
-          </tr>
-        ))}
+        {map(
+          lineItems,
+          lineItem => (<LineItem
+            lineItem={lineItem}
+            key={`${recipientName}-${invoiceNum}-${lineItem.name}`}
+          />)
+        )}
         <tr>
           <td></td>
           <td></td>
@@ -47,7 +58,10 @@ const Confirmation = ({ documents }) => {
   console.log('Documents: ', documents)
 
   return (<>
-    {map(documents, document => (<TablePreview document={document}/>))}
+    {map(documents, document => (<TablePreview
+      document={document}
+      key={`${document.recipientName}-${document.invoiceNum}`}
+    />))}
   </>)
 }
 

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Table } from 'react-bootstrap'
 import { findIndex, filter } from 'lodash'
 
 
@@ -56,22 +57,26 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
 }
 const BillSourceForm = ({ values, setFieldValue }) => {
   const { sources } = values
-  return (<table className='bill-source-container'>
-    <tr>
-      <th>Included</th>
-      <th>Service Date Range</th>
-      <th>Bill Source</th>
-      <th>Total Charged</th>
-    </tr>
-    {sources.map(
-      billSource => (<BillSourceInputs
-        key={billSource.id}
-        billSource={billSource}
-        setFieldValue={setFieldValue}
-        values={values}
-      />)
-    )}
-  </table>)
+  return (<Table className='bill-source-container'  striped bordered condensed hover >
+    <thead>
+      <tr>
+        <th>Included</th>
+        <th>Service Date Range</th>
+        <th>Bill Source</th>
+        <th>Total Charged</th>
+      </tr>
+    </thead>
+    <tbody>
+      {sources.map(
+        billSource => (<BillSourceInputs
+          key={billSource.id}
+          billSource={billSource}
+          setFieldValue={setFieldValue}
+          values={values}
+        />)
+      )}
+    </tbody>
+  </Table>)
 }
 
 export default BillSourceForm
