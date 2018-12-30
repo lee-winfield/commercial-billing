@@ -146,14 +146,17 @@ class BillingModal extends React.Component<any, any> {
     return (
       <Modal
         show={isBillingModalOpen}
-      >
+        dialogComponentClass='billing-modal'
+        >
         <Formik
           initialValues={formValues}
           onSubmit={handleSubmit}
           render={({ values, setFieldValue }) =>
-         (
-         <Form>
-          <Modal.Dialog>
+          (
+            <Form>
+          <Modal.Dialog
+            dialogClassName='billing-modal'
+          >
             <Modal.Header>
               <Modal.Title>{stepHeadingMap[step]}</Modal.Title>
             </Modal.Header>
