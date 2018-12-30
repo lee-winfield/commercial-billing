@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik';
 import BillSourceForm from './BillSourceForm';
 import RecipientForm from './RecipientForm';
 import Confirmation from './Confirmation';
+import formatValuesForDocuments from '../helpers/formatValuesForDocuments';
 
 class BillingModal extends React.Component<any, any> {
   constructor(props) {
@@ -15,7 +16,7 @@ class BillingModal extends React.Component<any, any> {
   }
 
   render() {
-    const { isBillingModalOpen, bills, closeModal } = this.props
+    const { isBillingModalOpen, nextInvoiceNum, closeModal } = this.props
     
     const { step } = this.state
     const nextStep = () => this.setState({ step: step + 1 })
@@ -25,8 +26,8 @@ class BillingModal extends React.Component<any, any> {
       2: 'Step 2: Allocate to Recipients',
       3: 'Step 3: Confirmation',
     }
-
     const Stepper = ({ values, setFieldValue }) => {
+      const documents = formatValuesForDocuments(values)
       switch (step) {
         case 1: return (
           <BillSourceForm values={values} setFieldValue={setFieldValue} />
@@ -35,7 +36,7 @@ class BillingModal extends React.Component<any, any> {
           <RecipientForm values={values} setFieldValue={setFieldValue} />
         )
         case 3: return (
-          <Confirmation values={values} setFieldValue={setFieldValue} />
+          <Confirmation documents={documents} />
         )
         default: return null
       }

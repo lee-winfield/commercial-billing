@@ -6,6 +6,7 @@ import { get } from 'lodash'
 import axios from 'axios'
 import Cards from './components/Cards'
 import BillingModal from './components/BillingModal'
+import getNextInvoiceNum from './helpers/getNextInvoiceNum';
 
 export interface RecipientInfo {
   address1: string
@@ -47,6 +48,7 @@ class App extends React.Component<any, AppState> {
     const { bills, isBillingModalOpen } = this.state
     const openModal = () => this.setState({ isBillingModalOpen: true })
     const closeModal = () => this.setState({ isBillingModalOpen: false })
+    const nextInvoiceNum = getNextInvoiceNum(bills)
     
     return (
       <div className="App">
@@ -59,8 +61,8 @@ class App extends React.Component<any, AppState> {
           </div>
           <BillingModal
             isBillingModalOpen={isBillingModalOpen}
-            bills={bills}
             closeModal={closeModal}
+            nextInvoiceNum={nextInvoiceNum}
           />
         </div>
       </div>
