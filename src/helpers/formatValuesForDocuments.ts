@@ -18,6 +18,7 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
                 serviceDate,
                 name,
                 amount,
+                percentage,
                 recipientCharge: amount * percentage / 100,
               },
             ]

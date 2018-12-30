@@ -55,7 +55,10 @@ class BillingModal extends React.Component<any, any> {
       sources,
       recipients, 
     }
-    const handleSubmit = () => console.log('submitting')
+    const handleSubmit = (values) => {
+      console.log('submitting documents: ', formatValuesForDocuments(values, nextInvoiceNum))
+      closeModal()
+    }
 
     return (
       <Modal
