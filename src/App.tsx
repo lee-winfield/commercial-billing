@@ -6,9 +6,9 @@ import { get, sortBy } from 'lodash'
 import axios from 'axios'
 import Cards from './components/Cards'
 import BillingModal from './components/BillingModal'
-import getNextInvoiceNum from './helpers/getNextInvoiceNum';
-import getRecipients from './helpers/getRecipients';
-import getSources from './helpers/getSources';
+import getNextInvoiceNum from './helpers/getNextInvoiceNum'
+import getRecipients from './helpers/getRecipients'
+import getSources from './helpers/getSources'
 
 export interface RecipientInfo {
   address1: string

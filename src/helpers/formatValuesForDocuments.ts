@@ -1,4 +1,4 @@
-import { reduce, find, map } from 'lodash'
+import { reduce, find, map, filter } from 'lodash'
 
 const formatValuesForDocuments = (values, nextInvoiceNum ) => {
   const { recipients, sources } = values
@@ -47,7 +47,8 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
     return document
   }
 
-  const documents = map(recipients, makeDocumentForRecipient)
+  const filteredRecipients = filter(recipients, ['included', true])
+  const documents = map(filteredRecipients, makeDocumentForRecipient)
 
   return documents
 }
