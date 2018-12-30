@@ -7,6 +7,8 @@ import axios from 'axios'
 import Cards from './components/Cards'
 import BillingModal from './components/BillingModal'
 import getNextInvoiceNum from './helpers/getNextInvoiceNum';
+import getRecipients from './helpers/getRecipients';
+import getSources from './helpers/getSources';
 
 export interface RecipientInfo {
   address1: string
@@ -24,6 +26,8 @@ export interface Bill {
 interface AppState {
   bills: Bill[] | null
   isBillingModalOpen: boolean
+  recipients: object[]
+  sources: object[]
 }
 class App extends React.Component<any, AppState> {
   constructor(props: any) {
@@ -32,6 +36,8 @@ class App extends React.Component<any, AppState> {
     this.state = {
       bills: null,
       isBillingModalOpen: false,
+      recipients: [],
+      sources: [],
     }
   }
 
@@ -40,12 +46,13 @@ class App extends React.Component<any, AppState> {
 
     const response = await axios.get(url)
     const bills = get(response, 'data.Items', [])
-
-    this.setState({ bills: bills })
+    const recipients = getRecipients()
+    const sources = getSources()
+    this.setState({ bills, recipients, sources })
   }
 
   public render() {
-    const { bills, isBillingModalOpen } = this.state
+    const { bills, isBillingModalOpen, recipients, sources } = this.state
     const openModal = () => this.setState({ isBillingModalOpen: true })
     const closeModal = () => this.setState({ isBillingModalOpen: false })
     const nextInvoiceNum = getNextInvoiceNum(bills)
@@ -63,6 +70,8 @@ class App extends React.Component<any, AppState> {
             isBillingModalOpen={isBillingModalOpen}
             closeModal={closeModal}
             nextInvoiceNum={nextInvoiceNum}
+            recipients={recipients}
+            sources={sources}
           />
         </div>
       </div>

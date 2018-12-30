@@ -4,7 +4,7 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
   const { recipients, sources } = values
   
   const makeDocumentForRecipient = (recipient, index) => {
-    const { allocations } = recipient
+    const { allocations, name, address1, address2, phone } = recipient
     const generateLineItems = () => 
       reduce(allocations, (acc, allocation) => {
         const { sourceId, allocated, percentage } = allocation
@@ -32,7 +32,7 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
 
     const invoiceNum = nextInvoiceNum + index
     const lineItems = generateLineItems()
-    const recipientInfo = {}
+    const recipientInfo = { name, address1, address2, phone }
     const location = `https://s3.us-east-2.amazonaws.com/cjwinfield/relson_gracie/${invoiceNum}.pdf`
     
     const document = {

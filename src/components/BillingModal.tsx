@@ -16,7 +16,7 @@ class BillingModal extends React.Component<any, any> {
   }
 
   render() {
-    const { isBillingModalOpen, nextInvoiceNum, closeModal } = this.props
+    const { isBillingModalOpen, nextInvoiceNum, closeModal, recipients, sources } = this.props
     
     const { step } = this.state
     const nextStep = () => this.setState({ step: step + 1 })
@@ -50,93 +50,6 @@ class BillingModal extends React.Component<any, any> {
         { step === 3 ? <Button type='submit' bsStyle="primary">Confirm</Button> : null}
       </>
     )
-
-    const sources = [
-      {
-        id: 0,
-        serviceDate: '',
-        name: 'Dominion',
-        included: true,
-        amount: 0,
-      },
-      {
-        id: 1,
-        serviceDate: '',
-        name: 'Illuminating',
-        included: true,
-        amount: 0,
-      },
-      {
-        id: 2,
-        serviceDate: '',
-        name: 'Waste Management',
-        included: true,
-        amount: 0,
-      },
-      {
-        id: 3,
-        serviceDate: '',
-        name: '',
-        included: false,
-        amount: 0,
-      },
-      {
-        id: 4,
-        serviceDate: '',
-        name: '',
-        included: false,
-        amount: 0,
-      },
-    ]
-
-    const recipients = [
-      {
-        name: 'C.J. Winfield Properties',
-        id: 0,
-        defaultPercentage: 22,
-        included: true,
-        allocations: [
-          {
-            sourceId: 0,
-            allocated: true,
-            percentage: 22,
-          },
-          {
-            sourceId: 1,
-            allocated: true,
-            percentage: 22,
-          },
-          {
-            sourceId: 2,
-            allocated: true,
-            percentage: 22,
-          },
-        ],
-      },
-      {
-        name: 'Relson Gracie Jiu Jitsu',
-        id: 1,
-        defaultPercentage: 56,
-        included: true,
-        allocations: [
-          {
-            sourceId: 0,
-            allocated: true,
-            percentage: 56,
-          },
-          {
-            sourceId: 1,
-            allocated: true,
-            percentage: 56,
-          },
-          {
-            sourceId: 2,
-            allocated: true,
-            percentage: 56,
-          },
-        ],
-      },
-    ]
 
     const formValues = {
       sources,
