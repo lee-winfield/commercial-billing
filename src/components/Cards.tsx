@@ -2,6 +2,7 @@ import * as React from 'react'
 import { map } from 'lodash'
 import { Bill } from '../App'
 import { Panel } from 'react-bootstrap'
+import { reverse } from 'lodash';
 
 interface CardsProps {
   bills: Bill[]
@@ -32,6 +33,9 @@ const Card: React.SFC<CardProps> = ({ bill }) => {
         </strong>
         {'N/A'}
       </div>
+      <div className='download'>
+        <a href={location}>Download</a>
+      </div>
     </div>
   )
 }
@@ -39,7 +43,7 @@ const Card: React.SFC<CardProps> = ({ bill }) => {
 const Cards: React.SFC<CardsProps> = ({ bills }) => (
   <Panel className='card-panel'>
     <div className='card-container' >
-      {map(bills, bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
+      {map(reverse(bills), bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
     </div>
   </Panel>
 )

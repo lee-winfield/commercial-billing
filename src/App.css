@@ -97,7 +97,8 @@
   background: white;
   cursor: pointer;
   width: 18em;
-  height: 15em;
+  height: fit-content;
+  min-height: 14em;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
 }
@@ -107,8 +108,8 @@
   transform: scale(1.025);
 }
 
-.card-info {
-  padding: 1em;
+.card-info, .download {
+  margin: 1em;
 }
 
 .card-header {
