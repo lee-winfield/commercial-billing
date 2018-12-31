@@ -30,7 +30,6 @@ class Card extends React.Component<any, any> {
     const { bill } = this.props
     const { invoiceNum, location, recipientInfo, createdOn } = bill
     const handleClick = () => {
-      console.log(bill)
       this.openModal()
     }
     const closeModal = this.closeModal

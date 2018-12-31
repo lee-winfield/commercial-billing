@@ -55,7 +55,6 @@ export const TablePreview = ({ document }) => {
 }
 
 const Confirmation = ({ documents, errors }) => {
-  console.log('Documents: ', documents)
 
   return (<>
     {map(documents, document => (<TablePreview
