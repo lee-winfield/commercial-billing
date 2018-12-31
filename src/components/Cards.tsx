@@ -4,7 +4,7 @@ import { Bill } from '../App'
 import { Panel } from 'react-bootstrap'
 import { reverse } from 'lodash'
 import { Modal, Button } from 'react-bootstrap'
-import { TablePreview } from './Confirmation';
+import { TablePreview } from './Confirmation'
 
 
 interface CardsProps {

@@ -16,7 +16,7 @@ class BillingModal extends React.Component<any, any> {
   }
 
   render() {
-    const { isBillingModalOpen, nextInvoiceNum, closeModal, recipients, sources } = this.props
+    const { isBillingModalOpen, nextInvoiceNum, closeModal, recipients, sources, addBill } = this.props
     
     const { step } = this.state
     const nextStep = () => this.setState({ step: step + 1 })
@@ -60,7 +60,8 @@ class BillingModal extends React.Component<any, any> {
     const handleSubmit = async (values: any, actions: FormikActions<any>) => {
       const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
       const documents = formatValuesForDocuments(values, nextInvoiceNum)
-      await documents.forEach(async ({ invoiceNum, lineItems, recipientInfo, location, createdOn }) => {
+      await documents.forEach(async (document) => {
+        const { invoiceNum, lineItems, recipientInfo, location, createdOn } = document
         const body = JSON.stringify({
           TableName: 'Billing',
           Item: {
@@ -70,6 +71,7 @@ class BillingModal extends React.Component<any, any> {
         console.log(body)
         const response = await axios.post(url, body)
         console.log(response)
+        addBill(document)
       })
       closeModal()
     }

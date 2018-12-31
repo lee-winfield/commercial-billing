@@ -51,11 +51,16 @@ class App extends React.Component<any, AppState> {
     this.setState({ bills, recipients, sources })
   }
 
+  addBill = bill => {
+    this.setState({bills: [...this.state.bills, bill]})
+  }
+
   public render() {
     const { bills, isBillingModalOpen, recipients, sources } = this.state
     const openModal = () => this.setState({ isBillingModalOpen: true })
     const closeModal = () => this.setState({ isBillingModalOpen: false })
     const nextInvoiceNum = getNextInvoiceNum(bills)
+    const addBill = this.addBill
     
     return (
       <div className="App">
@@ -72,6 +77,7 @@ class App extends React.Component<any, AppState> {
             nextInvoiceNum={nextInvoiceNum}
             recipients={recipients}
             sources={sources}
+            addBill={addBill}
           />
         </div>
       </div>
