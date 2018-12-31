@@ -2,7 +2,6 @@ import * as React from 'react'
 import { map } from 'lodash'
 import { Bill } from '../App'
 import { Panel } from 'react-bootstrap'
-import { reverse } from 'lodash'
 import { Modal, Button } from 'react-bootstrap'
 import { TablePreview } from './Confirmation'
 
@@ -86,7 +85,7 @@ class Card extends React.Component<any, any> {
 const Cards: React.SFC<CardsProps> = ({ bills }) => (
   <Panel className='card-panel'>
     <div className='card-container' >
-      {map(reverse(bills), bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
+      {map(bills, bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
     </div>
   </Panel>
 )

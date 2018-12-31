@@ -54,7 +54,7 @@ export const TablePreview = ({ document }) => {
   </div>
 }
 
-const Confirmation = ({ documents }) => {
+const Confirmation = ({ documents, errors }) => {
   console.log('Documents: ', documents)
 
   return (<>
@@ -62,6 +62,8 @@ const Confirmation = ({ documents }) => {
       document={document}
       key={`${document.recipientName}-${document.invoiceNum}`}
     />))}
+    {errors.sources && <div className='error'>{errors.sources}</div>}
+    {errors.recipients && <div className='error'>{errors.recipients}</div>}
   </>)
 }
 

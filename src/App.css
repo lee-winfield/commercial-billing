@@ -180,3 +180,9 @@
   margin: 0 0.5em 0 0.5em;
   max-width: 7em;
 }
+
+.error {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+}

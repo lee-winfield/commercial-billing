@@ -6,6 +6,8 @@ import BillSourceForm from './BillSourceForm';
 import RecipientForm from './RecipientForm';
 import Confirmation from './Confirmation';
 import formatValuesForDocuments from '../helpers/formatValuesForDocuments';
+import validate from '../helpers/validate';
+import { isEmpty } from  'lodash'
 
 class BillingModal extends React.Component<any, any> {
   constructor(props) {
@@ -21,12 +23,13 @@ class BillingModal extends React.Component<any, any> {
     const { step } = this.state
     const nextStep = () => this.setState({ step: step + 1 })
     const previousStep = () => this.setState({ step: step - 1 })
+    const resetStepper = () => this.setState({ step: 1 })
     const stepHeadingMap = {
       1: 'Step 1: Add Bill Source',
       2: 'Step 2: Allocate to Recipients',
       3: 'Step 3: Confirmation',
     }
-    const Stepper = ({ values, setFieldValue }) => {
+    const Stepper = ({ values, errors, setFieldValue }) => {
       const documents = formatValuesForDocuments(values, nextInvoiceNum)
       switch (step) {
         case 1: return (
@@ -36,7 +39,7 @@ class BillingModal extends React.Component<any, any> {
           <RecipientForm values={values} setFieldValue={setFieldValue} />
         )
         case 3: return (
-          <Confirmation documents={documents} />
+          <Confirmation documents={documents} errors={errors} />
         )
         default: return null
       }
@@ -60,6 +63,7 @@ class BillingModal extends React.Component<any, any> {
     const handleSubmit = async (values: any, actions: FormikActions<any>) => {
       const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
       const documents = formatValuesForDocuments(values, nextInvoiceNum)
+      const isValid = await actions.validateForm(values)
       await documents.forEach(async (document) => {
         const { invoiceNum, lineItems, recipientInfo, location, createdOn } = document
         const body = JSON.stringify({
@@ -68,12 +72,15 @@ class BillingModal extends React.Component<any, any> {
             invoiceNum, lineItems, recipientInfo, location, createdOn,
           },
         })
-        console.log(body)
         const response = await axios.post(url, body)
-        console.log(response)
         addBill(document)
       })
-      closeModal()
+
+      if (isEmpty(isValid)) {
+        closeModal()
+        resetStepper()
+        actions.resetForm()
+      }
     }
 
     return (
@@ -84,7 +91,8 @@ class BillingModal extends React.Component<any, any> {
         <Formik
           initialValues={formValues}
           onSubmit={handleSubmit}
-          render={({ values, setFieldValue }) =>
+          validate={validate}
+          render={({ values, errors, setFieldValue }) =>
           (
             <Form>
           <Modal.Dialog
@@ -95,8 +103,7 @@ class BillingModal extends React.Component<any, any> {
             </Modal.Header>
       
             <Modal.Body>
-              <Stepper values={values} setFieldValue={setFieldValue} />
-              {/* <LandingPage bills={bills} /> */}
+              <Stepper values={values} errors={errors} setFieldValue={setFieldValue} />
             </Modal.Body>
       
             <Modal.Footer>

@@ -45,14 +45,14 @@ class App extends React.Component<any, AppState> {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
 
     const response = await axios.get(url)
-    const bills = sortBy(get(response, 'data.Items', []), ['invoiceNum'])
+    const bills = sortBy(get(response, 'data.Items', []), ['invoiceNum']).reverse()
     const recipients = getRecipients()
     const sources = getSources()
     this.setState({ bills, recipients, sources })
   }
 
   addBill = bill => {
-    this.setState({bills: [...this.state.bills, bill]})
+    this.setState({bills: [bill, ...this.state.bills]})
   }
 
   public render() {
