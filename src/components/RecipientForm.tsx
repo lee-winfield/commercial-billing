@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { findIndex, find } from 'lodash'
+import { Panel } from 'react-bootstrap'
 
 const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disabled, setFieldValue, values }) => {
   const { sourceId, allocated, percentage } = allocation
@@ -57,21 +58,25 @@ const RecipientInputs = ({ recipient, setFieldValue, values }) => {
 
 
   return (
-    <div className='recipient-inputs'>
-      <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
-      <span>
-        {name}
-      </span>
-      <AllocationInputs
-        disabled={!included}
-        allocations={allocations}
-        recipientId={id}
-        recipientIndex={index}
-        setFieldValue={setFieldValue}
-        values={values}
-      />
+    <Panel className='recipient-inputs'>
+      <Panel.Heading>
+        <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
+        <span>
+          {name}
+        </span>
+      </Panel.Heading>
+      <Panel.Body>
+        <AllocationInputs
+          disabled={!included}
+          allocations={allocations}
+          recipientId={id}
+          recipientIndex={index}
+          setFieldValue={setFieldValue}
+          values={values}
+        />
+      </Panel.Body>
       <br/>
-    </div>
+    </Panel>
   )
 }
 const RecipientForm = ({ values, setFieldValue }) => {
