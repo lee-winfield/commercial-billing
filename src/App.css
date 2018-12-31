@@ -77,7 +77,7 @@
 
 .card-panel {
   width: fit-content;
-
+  min-width: 70%;
   padding: 1.5em;
   height: 75vh;
   overflow-y: scroll;
@@ -88,6 +88,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   width: fit-content;
+  min-width: 70%;
 }
 
 .card {

@@ -11,9 +11,6 @@ interface CardsProps {
   bills: Bill[]
 }
 
-interface CardProps {
-  bill: Bill
-}
 
 class Card extends React.Component<any, any> {
   constructor(props) {
@@ -60,7 +57,7 @@ class Card extends React.Component<any, any> {
             {createdOn ? new Date(createdOn).toDateString() : 'N/A'}
           </div>
           <div className='download'>
-            <a href={location}>Download</a>
+            <a href={location} onClick={e => {e.stopPropagation()}}>Download</a>
           </div>
         </div>
         <Modal show={this.state.modalOpen} dialogComponentClass='billing-modal'>
