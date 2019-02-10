@@ -23,12 +23,19 @@ const getSources = () => [
   {
     id: 3,
     serviceDate: '',
+    name: 'Rent',
+    included: true,
+    amount: 0,
+  },
+  {
+    id: 4,
+    serviceDate: '',
     name: '',
     included: false,
     amount: 0,
   },
   {
-    id: 4,
+    id: 5,
     serviceDate: '',
     name: '',
     included: false,
