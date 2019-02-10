@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { map } from 'lodash'
-import { Bill } from '../App'
+import { Bill } from './BillingPage'
 import { Panel } from 'react-bootstrap'
 import { Modal, Button } from 'react-bootstrap'
 import { TablePreview } from './Confirmation'

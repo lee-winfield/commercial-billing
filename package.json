@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-router": "^4.4.3",
+    "@types/react-router-dom": "^4.3.1",
     "axios": "^0.18.0",
     "formik": "^1.0.2",
-    "react": "^16.6.3",
+    "react": "^16.8.1",
     "react-bootstrap": "^0.32.4",
     "react-currency-input": "^1.3.6",
     "react-dom": "^16.6.3",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-scripts-ts": "^4.0.8",
     "react-select": "^2.0.0",
     "reactstrap": "^6.5.0"
@@ -24,7 +28,7 @@
     "@types/jest": "^23.3.1",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.5.4",
-    "@types/react": "^16.7.17",
+    "@types/react": "^16.8.2",
     "@types/react-dom": "^16.0.6",
     "@types/react-select": "^2.0.1",
     "typescript": "^3.0.1"
