@@ -49,6 +49,7 @@ class BillingPage extends React.Component<any, BillingPageState> {
     const recipients = getRecipients()
     const sources = getSources()
     this.setState({ bills, recipients, sources })
+    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
   }
 
   componentDidUpdate() {

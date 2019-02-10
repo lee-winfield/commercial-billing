@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './App.css'
 import BillingPage from './components/BillingPage'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Logo from './components/Logo'
 
@@ -13,8 +13,10 @@ const App = () => (
         <Navbar />
         <div className='app-body'>
           <Logo />
-          <Route exact path="/" component={BillingPage} />
-          <Route path="/about" component={About} />
+          <Switch>
+            <Route exact path="/" component={BillingPage} />
+            <Route path="/about" component={About} />
+          </Switch>
         </div>
       </div>
     </Router>
