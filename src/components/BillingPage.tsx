@@ -47,7 +47,7 @@ class BillingPage extends React.Component<any, BillingPageState> {
     const response = await axios.get(url)
     const bills = sortBy(get(response, 'data.Items', []), ['invoiceNum']).reverse()
     const recipients = getRecipients()
-    const sources = getSources()
+    const sources = await getSources()
     this.setState({ bills, recipients, sources })
     window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
   }
