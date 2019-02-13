@@ -18,6 +18,13 @@ const getSources = async () => {
   )
   const blankSources = [
     {
+      id: sourceQty,
+      serviceDate: '',
+      name: '',
+      included: false,
+      amount: 0,
+    },
+    {
       id: sourceQty + 1,
       serviceDate: '',
       name: '',
@@ -26,13 +33,6 @@ const getSources = async () => {
     },
     {
       id: sourceQty + 2,
-      serviceDate: '',
-      name: '',
-      included: false,
-      amount: 0,
-    },
-    {
-      id: sourceQty + 3,
       serviceDate: '',
       name: '',
       included: false,
