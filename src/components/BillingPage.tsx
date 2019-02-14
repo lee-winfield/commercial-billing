@@ -1,13 +1,12 @@
 import * as React from 'react'
 import '../App.css'
-import { get, sortBy } from 'lodash'
-import axios from 'axios'
 import Cards from './Cards'
 import BillingModal from './BillingModal'
 import getNextInvoiceNum from '../helpers/getNextInvoiceNum'
 import getRecipients from '../helpers/getRecipients'
 import getSources from '../helpers/getSources'
 import { Prompt } from 'react-router-dom'
+import getBills from 'src/helpers/getBills';
 
 
 export interface RecipientInfo {
@@ -42,13 +41,10 @@ class BillingPage extends React.Component<any, BillingPageState> {
   }
 
   async componentDidMount() {
-    const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
-
-    const response = await axios.get(url)
-    const bills = sortBy(get(response, 'data.Items', []), ['invoiceNum']).reverse()
+    const bills = getBills()
     const recipients = getRecipients()
-    const sources = await getSources()
-    this.setState({ bills, recipients, sources })
+    const sources = getSources()
+    this.setState({ bills: await bills, recipients: await recipients, sources: await sources })
     window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
   }
 
