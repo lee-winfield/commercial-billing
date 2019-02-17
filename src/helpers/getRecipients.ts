@@ -3,11 +3,14 @@ import { get, uniq } from 'lodash'
 
 const getAllocations = (defaultSourceIds, allSourceIds, defaultPercentage) =>
  allSourceIds.map(
-  sourceId => ({
-    sourceId,
-    allocated: defaultSourceIds.includes(sourceId),
-    percentage: defaultPercentage,
-  })
+  sourceId => {
+    const allocated = defaultSourceIds.includes(sourceId)
+    return {
+      sourceId,
+      allocated,
+      percentage: allocated ? defaultPercentage : 0,
+    }
+  }
 )
 
 const getRecipients = async () => {
