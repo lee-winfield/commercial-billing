@@ -4,6 +4,10 @@ import { Bill } from './BillingPage'
 import { Panel } from 'react-bootstrap'
 import { Modal, Button } from 'react-bootstrap'
 import { TablePreview } from './Confirmation'
+import '@material/card/dist/mdc.card.css';
+import '@material/button/dist/mdc.button.css';
+import '@material/icon-button/dist/mdc.icon-button.css';
+import { Card } from '@rmwc/card';
 const { useState } = React
 
 
@@ -11,7 +15,7 @@ interface CardsProps {
   bills: Bill[]
 }
 
-const Card: React.SFC<any> = (props) => {
+const BillCard: React.SFC<any> = (props) => {
   const [ modalOpen, setModalOpen ] = useState(false)
   const openModal = () => setModalOpen(true)
   const closeModal = () => setModalOpen(false)
@@ -22,7 +26,7 @@ const Card: React.SFC<any> = (props) => {
   
   return (
     <>
-      <div className='card' onClick={handleClick}>
+      <Card onClick={handleClick}>
         <h3 className={'card-header'}>
           <div>Invoice: {invoiceNum}</div>
         </h3>
@@ -41,7 +45,7 @@ const Card: React.SFC<any> = (props) => {
         <div className='download'>
           <a href={location} onClick={e => {e.stopPropagation()}}>Download</a>
         </div>
-      </div>
+      </Card>
       <Modal show={modalOpen} dialogComponentClass='billing-modal'>
         <Modal.Dialog
             dialogClassName='billing-modal'
@@ -66,7 +70,7 @@ const Card: React.SFC<any> = (props) => {
 const Cards: React.SFC<CardsProps> = ({ bills }) => (
   <Panel className='card-panel'>
     <div className='card-container' >
-      {map(bills, bill => (<Card key={bill.invoiceNum} bill={bill}/>))}
+      {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
     </div>
   </Panel>
 )
