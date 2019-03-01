@@ -3,37 +3,20 @@ import './App.css'
 import BillingPage from './components/BillingPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import Logo from './components/Logo'
+import styled from 'styled-components'
 
 
 const App = () => (
-  <div className="App">
-    <Router>
-      <div>
-        <Navbar />
-        <div className='app-body'>
-          <Logo />
-          <Switch>
-            <Route exact path="/" component={BillingPage} />
-            <Route path="/about" component={About} />
-          </Switch>
-        </div>
-      </div>
-    </Router>
-  </div>
+  <>
+    <Navbar />
+    <div className='app-body'>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={BillingPage} />
+        </Switch>
+      </Router>
+    </div>
+  </>
 );
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-);
-
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
-
 
 export default App;

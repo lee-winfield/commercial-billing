@@ -17,7 +17,8 @@
     "react-scripts-ts": "^4.0.8",
     "react-select": "^2.0.0",
     "reactstrap": "^6.5.0",
-    "rmwc": "^5.1.8"
+    "rmwc": "^5.1.8",
+    "styled-components": "^4.1.3"
   },
   "scripts": {
     "start": "react-scripts-ts start",

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import '../App.css'
+// import '../App.css'
 import Cards from './Cards'
 import BillingModal from './BillingModal'
 import getNextInvoiceNum from '../helpers/getNextInvoiceNum'
@@ -7,6 +7,9 @@ import getRecipients from '../helpers/getRecipients'
 import getSources from '../helpers/getSources'
 import { Prompt } from 'react-router-dom'
 import getBills from 'src/helpers/getBills'
+import { Fab } from '@rmwc/fab'
+import '@material/fab/dist/mdc.fab.css';
+
 const { useEffect, useState } = React
 
 export interface RecipientInfo {
@@ -56,9 +59,7 @@ const BillingPage: React.SFC<any> = (props: any) => {
         message={location => `Are you sure you want to go to ${location.pathname}`}
       />
       <Cards bills={bills} />
-      <div className='fab' onClick={openModal} >
-        +
-      </div>
+      <Fab icon='add' label='Create' onClick={openModal} />
       <BillingModal
         isBillingModalOpen={isBillingModalOpen}
         closeModal={closeModal}

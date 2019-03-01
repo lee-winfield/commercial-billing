@@ -1,13 +1,24 @@
 import * as React from 'react'
+import { Grid, GridCell, GridInner } from '@rmwc/grid';
+import '@material/layout-grid/dist/mdc.layout-grid.css';
 import { map } from 'lodash'
 import { Bill } from './BillingPage'
-import { Panel } from 'react-bootstrap'
 import { Modal, Button } from 'react-bootstrap'
 import { TablePreview } from './Confirmation'
 import '@material/card/dist/mdc.card.css';
 import '@material/button/dist/mdc.button.css';
 import '@material/icon-button/dist/mdc.icon-button.css';
-import { Card } from '@rmwc/card';
+import {
+  Card,
+  CardPrimaryAction,
+  CardMedia,
+  CardActionButton,
+  CardActionIcon,
+  CardActions,
+  CardActionButtons,
+  CardActionIcons
+} from '@rmwc/card';
+import { Typography } from '@rmwc/typography';
 const { useState } = React
 
 
@@ -25,30 +36,42 @@ const BillCard: React.SFC<any> = (props) => {
   const handleClick = () => openModal()
   
   return (
-    <>
-      <Card onClick={handleClick}>
-        <h3 className={'card-header'}>
-          <div>Invoice: {invoiceNum}</div>
-        </h3>
-        <div className='card-info'>
-          <strong>
-            {'Recipient: '}
-          </strong>
-          {recipientInfo.name}
-        </div>
-        <div className='card-info'>
-          <strong>
-            {'Date Created: '}
-          </strong>
-          {createdOn ? new Date(createdOn).toDateString() : 'N/A'}
-        </div>
-        <div className='download'>
-          <a href={location} onClick={e => {e.stopPropagation()}}>Download</a>
+    <GridCell>
+      <Card >
+        <CardPrimaryAction style={{ height: '8rem' }} onClick={handleClick} >
+          <div style={{ padding: '0 1rem 1rem 1rem' }}>
+            <Typography use='headline5' >
+              Invoice: {invoiceNum}
+            </Typography>
+          </div>
+          <div style={{ padding: '0 1rem 1rem 1rem' }}>
+            <Typography use="body1">
+              <div>
+                <strong>
+                  {'Recipient: '}
+                </strong>
+                {recipientInfo.name}
+              </div>
+              <div>
+                <strong>
+                  {'Date Created: '}
+                </strong>
+                {createdOn ? new Date(createdOn).toDateString() : 'N/A'}
+              </div>
+            </Typography>
+          </div>
+        </CardPrimaryAction>
+        <div style={{ padding: '0 1rem 1rem 1rem' }}>
+          <CardActionButtons>
+            <CardActionButton href={location} onClick={e => {e.stopPropagation()}}>
+              <a href={location} onClick={e => {e.stopPropagation()}} download>Download</a>
+            </CardActionButton>
+          </CardActionButtons>
         </div>
       </Card>
       <Modal show={modalOpen} dialogComponentClass='billing-modal'>
         <Modal.Dialog
-            dialogClassName='billing-modal'
+          dialogClassName='billing-modal'
         >
           <Modal.Header>
             <Modal.Title>Bill Information</Modal.Title>
@@ -63,16 +86,14 @@ const BillCard: React.SFC<any> = (props) => {
           </Modal.Footer>
         </Modal.Dialog>
       </Modal>
-    </>
+    </GridCell>
   )
 }
 
 const Cards: React.SFC<CardsProps> = ({ bills }) => (
-  <Panel className='card-panel'>
-    <div className='card-container' >
-      {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
-    </div>
-  </Panel>
+  <Grid className='card-panel'>
+    {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
+  </Grid>
 )
 
 export default Cards
