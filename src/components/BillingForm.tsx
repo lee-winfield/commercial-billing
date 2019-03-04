@@ -19,11 +19,11 @@ import validate from '../helpers/validate';
 import { isEmpty } from  'lodash'
 import getRecipients from 'src/helpers/getRecipients';
 import getSources from 'src/helpers/getSources';
-const { useState, useEffect } = React
+import { BillingContext } from 'src/context/BillingContextProvider';
+import getNextInvoiceNum from 'src/helpers/getNextInvoiceNum';
+const { useState, useEffect, useContext } = React
 
-const Stepper = ({ values, errors, setFieldValue, step }) => {
-    // TODO: get nextInvoiceNum
-  const nextInvoiceNum = 0
+const Stepper = ({ values, errors, setFieldValue, step, nextInvoiceNum }) => {
   const documents = formatValuesForDocuments(values, nextInvoiceNum)
   switch (step) {
     case 1: return (
@@ -40,9 +40,11 @@ const Stepper = ({ values, errors, setFieldValue, step }) => {
 }
 
 const BillingForm: React.SFC<any> = (props) => {
+  const { bills, setBills } = useContext(BillingContext)
   const [ step, setStep ] = useState(1)
   const [ recipients, setRecipients ] = useState([])
   const [ sources, setSources ] = useState([])
+  console.log({bills})
 
   async function initialize() {
     const recipients = getRecipients()
@@ -81,9 +83,10 @@ const BillingForm: React.SFC<any> = (props) => {
     recipients, 
   }
 
+  const nextInvoiceNum = getNextInvoiceNum(bills)
+
+
   const handleSubmit = async (values: any, actions: FormikActions<any>) => {
-    // TODO: get nextInvoiceNum
-    const nextInvoiceNum = 0
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
     const documents = formatValuesForDocuments(values, nextInvoiceNum)
     const isValid = await actions.validateForm(values)
@@ -96,7 +99,7 @@ const BillingForm: React.SFC<any> = (props) => {
         },
       })
       await axios.post(url, body)
-      // addBill(document)
+      setBills([...bills, document])
     })
 
     if (isEmpty(isValid)) {
@@ -118,7 +121,7 @@ const BillingForm: React.SFC<any> = (props) => {
             {stepHeadingMap[step]}
           </DialogTitle>
           <DialogContent>
-            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
+            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} nextInvoiceNum={nextInvoiceNum} />
           </DialogContent>
           <DialogActions>
             <FormButtons />

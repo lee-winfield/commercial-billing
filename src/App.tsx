@@ -4,9 +4,10 @@ import BillingPage from './components/BillingPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import BillingForm from './components/BillingForm';
+import BillingContextProvider from './context/BillingContextProvider';
 
 const App = () => (
-  <>
+  <BillingContextProvider>
     <Navbar />
     <div className='app-body'>
       <Router>
@@ -16,7 +17,7 @@ const App = () => (
         </Switch>
       </Router>
     </div>
-  </>
+  </BillingContextProvider>
 );
 
 export default App;

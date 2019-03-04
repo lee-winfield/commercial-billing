@@ -1,16 +1,11 @@
 import * as React from 'react'
-// import '../App.css'
 import Cards from './Cards'
-import BillingForm from './BillingForm'
-import getNextInvoiceNum from '../helpers/getNextInvoiceNum'
 import { Prompt } from 'react-router-dom'
-import getBills from 'src/helpers/getBills'
 import { Fab } from '@rmwc/fab'
 import '@material/fab/dist/mdc.fab.css';
-import getRecipients from 'src/helpers/getRecipients';
-import getSources from 'src/helpers/getSources';
+import { BillingContext } from 'src/context/BillingContextProvider';
 
-const { useEffect, useState } = React
+const { useEffect, useContext } = React
 
 export interface RecipientInfo {
   address1: string
@@ -26,18 +21,10 @@ export interface Bill {
 }
 
 const BillingPage: React.SFC<any> = (props: any) => {
-  const [ bills, setBills ] = useState(null)
-
-  async function initialize() {
-    const bills = getBills()
-
-    setBills(await bills)
-
-    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
-  }
+  const { bills } = useContext(BillingContext)
 
   useEffect( () => {
-    initialize()
+    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
   }, [])
 
   return (
