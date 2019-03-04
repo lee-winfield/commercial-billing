@@ -3,8 +3,6 @@ import './App.css'
 import BillingPage from './components/BillingPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import styled from 'styled-components'
-
 
 const App = () => (
   <>

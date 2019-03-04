@@ -3,12 +3,12 @@ import * as React from 'react'
 import Cards from './Cards'
 import BillingModal from './BillingModal'
 import getNextInvoiceNum from '../helpers/getNextInvoiceNum'
-import getRecipients from '../helpers/getRecipients'
-import getSources from '../helpers/getSources'
 import { Prompt } from 'react-router-dom'
 import getBills from 'src/helpers/getBills'
 import { Fab } from '@rmwc/fab'
 import '@material/fab/dist/mdc.fab.css';
+import getRecipients from 'src/helpers/getRecipients';
+import getSources from 'src/helpers/getSources';
 
 const { useEffect, useState } = React
 
@@ -63,9 +63,9 @@ const BillingPage: React.SFC<any> = (props: any) => {
       <BillingModal
         isBillingModalOpen={isBillingModalOpen}
         closeModal={closeModal}
-        nextInvoiceNum={nextInvoiceNum}
-        recipients={recipients}
         sources={sources}
+        recipients={recipients}
+        nextInvoiceNum={nextInvoiceNum}
         addBill={addBill}
       />
     </>

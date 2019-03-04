@@ -9,7 +9,7 @@ const formatValuesForDocuments = (values, nextInvoiceNum ) => {
       reduce(allocations, (acc, allocation) => {
         const { sourceId, allocated, percentage } = allocation
         if (allocated) {
-          const source = find(sources, ['id', sourceId])
+          const source = find(sources, ['id', sourceId]) || {}
           const { serviceDate, name, amount, included } = source
           if (included) {
             const res =[

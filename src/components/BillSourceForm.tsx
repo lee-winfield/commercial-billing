@@ -1,5 +1,15 @@
 import * as React from 'react'
-import { Table } from 'react-bootstrap'
+import {
+  DataTable,
+  DataTableContent,
+  DataTableHead,
+  DataTableBody,
+  DataTableHeadCell,
+  DataTableRow,
+  DataTableCell
+} from '@rmwc/data-table';
+import '@rmwc/data-table/data-table.css';
+
 import { findIndex, filter } from 'lodash'
 
 
@@ -39,44 +49,47 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
   }
 
   return (
-    <tr>
-      <td>
+    <DataTableRow>
+      <DataTableCell>
         <input type='checkbox' value={id} checked={included} onChange={toggleCheckBox} />
-      </td>
-      <td>
+      </DataTableCell>
+      <DataTableCell>
         <input type='text' value={serviceDate} onChange={setServiceDate} disabled={!included} />
-      </td>
-      <td>
+      </DataTableCell>
+      <DataTableCell>
         <input type='text' value={name} onChange={setName} disabled={!included} />
-      </td>
-      <td>
+      </DataTableCell>
+      <DataTableCell>
         <input type='number' value={amount} onChange={setAmount} disabled={!included} />
-      </td>
-    </tr>
+      </DataTableCell>
+    </DataTableRow>
   )
 }
 const BillSourceForm = ({ values, setFieldValue }) => {
   const { sources } = values
-  return (<Table className='bill-source-container'  striped bordered condensed hover >
-    <thead>
-      <tr>
-        <th>Included</th>
-        <th>Service Date Range</th>
-        <th>Bill Source</th>
-        <th>Total Charged</th>
-      </tr>
-    </thead>
-    <tbody>
-      {sources.map(
-        billSource => (<BillSourceInputs
-          key={billSource.id}
-          billSource={billSource}
-          setFieldValue={setFieldValue}
-          values={values}
-        />)
-      )}
-    </tbody>
-  </Table>)
+
+  return (<DataTable>
+    <DataTableContent>
+      <DataTableHead>
+        <DataTableRow>
+          <DataTableHeadCell>Included</DataTableHeadCell>
+          <DataTableHeadCell>Service Date Range</DataTableHeadCell>
+          <DataTableHeadCell>Bill Source</DataTableHeadCell>
+          <DataTableHeadCell>Total Charged</DataTableHeadCell>
+        </DataTableRow>
+      </DataTableHead>
+      <DataTableBody>
+        {sources.map(
+          billSource => (<BillSourceInputs
+            key={billSource.id}
+            billSource={billSource}
+            setFieldValue={setFieldValue}
+            values={values}
+          />)
+        )}
+      </DataTableBody>
+    </DataTableContent>
+  </DataTable>)
 }
 
 export default BillSourceForm
