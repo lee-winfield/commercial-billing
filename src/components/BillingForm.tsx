@@ -17,9 +17,13 @@ import Confirmation from './Confirmation';
 import formatValuesForDocuments from '../helpers/formatValuesForDocuments';
 import validate from '../helpers/validate';
 import { isEmpty } from  'lodash'
-const { useState } = React
+import getRecipients from 'src/helpers/getRecipients';
+import getSources from 'src/helpers/getSources';
+const { useState, useEffect } = React
 
-const Stepper = ({ values, errors, setFieldValue, nextInvoiceNum, step }) => {
+const Stepper = ({ values, errors, setFieldValue, step }) => {
+    // TODO: get nextInvoiceNum
+  const nextInvoiceNum = 0
   const documents = formatValuesForDocuments(values, nextInvoiceNum)
   switch (step) {
     case 1: return (
@@ -35,10 +39,24 @@ const Stepper = ({ values, errors, setFieldValue, nextInvoiceNum, step }) => {
   }
 }
 
-const BillingModal: React.SFC<any> = (props) => {
+const BillingForm: React.SFC<any> = (props) => {
   const [ step, setStep ] = useState(1)
+  const [ recipients, setRecipients ] = useState([])
+  const [ sources, setSources ] = useState([])
 
-  const { isBillingModalOpen, nextInvoiceNum, sources, recipients, closeModal, addBill } = props
+  async function initialize() {
+    const recipients = getRecipients()
+    const sources = getSources()
+
+    setRecipients(await recipients)
+    setSources(await sources)
+
+    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
+  }
+
+  useEffect( () => {
+    initialize()
+  }, [])
 
   const nextStep = () => setStep(step + 1)
   const previousStep = () => setStep(step - 1)
@@ -51,7 +69,7 @@ const BillingModal: React.SFC<any> = (props) => {
 
   const FormButtons = () => (
     <>
-      <Button onClick={closeModal} >Close</Button>
+      <Button onClick={() => null} >Close</Button>
       { step > 1 ? <Button onClick={previousStep} >Previous</Button> : null}
       { step < 3 ? <Button onClick={nextStep} >Next</Button> : null}
       { step === 3 ? <Button type='submit' >Confirm</Button> : null}
@@ -64,6 +82,8 @@ const BillingModal: React.SFC<any> = (props) => {
   }
 
   const handleSubmit = async (values: any, actions: FormikActions<any>) => {
+    // TODO: get nextInvoiceNum
+    const nextInvoiceNum = 0
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
     const documents = formatValuesForDocuments(values, nextInvoiceNum)
     const isValid = await actions.validateForm(values)
@@ -76,42 +96,37 @@ const BillingModal: React.SFC<any> = (props) => {
         },
       })
       await axios.post(url, body)
-      addBill(document)
+      // addBill(document)
     })
 
     if (isEmpty(isValid)) {
-      closeModal()
       resetStepper()
       actions.resetForm()
     }
   }
 
   return (
-    <Dialog
-      open={isBillingModalOpen}
-      >
-      <Formik
-        initialValues={formValues}
-        onSubmit={handleSubmit}
-        validate={validate}
-        enableReinitialize
-        render={({ values, errors, setFieldValue }) =>
-        (
-          <Form>
+    <Formik
+      initialValues={formValues}
+      onSubmit={handleSubmit}
+      validate={validate}
+      enableReinitialize
+      render={({ values, errors, setFieldValue }) =>
+      (
+        <Form>
           <DialogTitle>
             {stepHeadingMap[step]}
           </DialogTitle>
           <DialogContent>
-            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} nextInvoiceNum={nextInvoiceNum} step={step} />
+            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
           </DialogContent>
           <DialogActions>
             <FormButtons />
           </DialogActions>
-       </Form>
-        )}
-      />
-    </Dialog>
+        </Form>
+      )}
+    />
   )
 }
 
-export default BillingModal
+export default BillingForm
