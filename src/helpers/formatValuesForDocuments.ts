@@ -1,7 +1,7 @@
 import { reduce, find, map, filter } from 'lodash'
 
-const formatValuesForDocuments = (values, nextInvoiceNum ) => {
-  const { recipients, sources } = values
+const formatValuesForDocuments = (values) => {
+  const { recipients, sources, nextInvoiceNum } = values
   
   const makeDocumentForRecipient = (recipient, index) => {
     const { allocations, name, address1, address2, phone, id } = recipient

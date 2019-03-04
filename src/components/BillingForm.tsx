@@ -1,10 +1,8 @@
 import * as React from 'react'
 import {
-  Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  DialogButton
 } from '@rmwc/dialog';
 import '@material/dialog/dist/mdc.dialog.css';
 import '@material/button/dist/mdc.button.css';
@@ -23,8 +21,8 @@ import { BillingContext } from 'src/context/BillingContextProvider';
 import getNextInvoiceNum from 'src/helpers/getNextInvoiceNum';
 const { useState, useEffect, useContext } = React
 
-const Stepper = ({ values, errors, setFieldValue, step, nextInvoiceNum }) => {
-  const documents = formatValuesForDocuments(values, nextInvoiceNum)
+const Stepper = ({ values, errors, setFieldValue, step }) => {
+  const documents = formatValuesForDocuments(values)
   switch (step) {
     case 1: return (
       <BillSourceForm values={values} setFieldValue={setFieldValue} />
@@ -77,18 +75,20 @@ const BillingForm: React.SFC<any> = (props) => {
       { step === 3 ? <Button type='submit' >Confirm</Button> : null}
     </>
   )
- 
-  const formValues = {
-    sources,
-    recipients, 
-  }
 
   const nextInvoiceNum = getNextInvoiceNum(bills)
+  
+  const formValues = {
+    sources,
+    recipients,
+    nextInvoiceNum,
+  }
+
 
 
   const handleSubmit = async (values: any, actions: FormikActions<any>) => {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
-    const documents = formatValuesForDocuments(values, nextInvoiceNum)
+    const documents = formatValuesForDocuments(values)
     const isValid = await actions.validateForm(values)
     await documents.forEach(async (document) => {
       const { invoiceNum, lineItems, recipientInfo, location, createdOn } = document
@@ -121,7 +121,7 @@ const BillingForm: React.SFC<any> = (props) => {
             {stepHeadingMap[step]}
           </DialogTitle>
           <DialogContent>
-            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} nextInvoiceNum={nextInvoiceNum} />
+            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
           </DialogContent>
           <DialogActions>
             <FormButtons />
