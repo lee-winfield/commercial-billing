@@ -19,6 +19,8 @@ import getRecipients from 'src/helpers/getRecipients';
 import getSources from 'src/helpers/getSources';
 import { BillingContext } from 'src/context/BillingContextProvider';
 import getNextInvoiceNum from 'src/helpers/getNextInvoiceNum';
+import { LinkButton } from './LinkButton';
+import { Prompt } from 'react-router-dom'
 const { useState, useEffect, useContext } = React
 
 const Stepper = ({ values, errors, setFieldValue, step }) => {
@@ -42,7 +44,6 @@ const BillingForm: React.SFC<any> = (props) => {
   const [ step, setStep ] = useState(1)
   const [ recipients, setRecipients ] = useState([])
   const [ sources, setSources ] = useState([])
-  console.log({bills})
 
   async function initialize() {
     const recipients = getRecipients()
@@ -50,12 +51,12 @@ const BillingForm: React.SFC<any> = (props) => {
 
     setRecipients(await recipients)
     setSources(await sources)
-
-    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
   }
 
   useEffect( () => {
     initialize()
+
+    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
   }, [])
 
   const nextStep = () => setStep(step + 1)
@@ -69,7 +70,7 @@ const BillingForm: React.SFC<any> = (props) => {
 
   const FormButtons = () => (
     <>
-      <Button onClick={() => null} >Close</Button>
+      <LinkButton to='/billing' label='Close' icon={null} />
       { step > 1 ? <Button onClick={previousStep} >Previous</Button> : null}
       { step < 3 ? <Button onClick={nextStep} >Next</Button> : null}
       { step === 3 ? <Button type='submit' >Confirm</Button> : null}
@@ -83,8 +84,6 @@ const BillingForm: React.SFC<any> = (props) => {
     recipients,
     nextInvoiceNum,
   }
-
-
 
   const handleSubmit = async (values: any, actions: FormikActions<any>) => {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
@@ -109,26 +108,32 @@ const BillingForm: React.SFC<any> = (props) => {
   }
 
   return (
-    <Formik
-      initialValues={formValues}
-      onSubmit={handleSubmit}
-      validate={validate}
-      enableReinitialize
-      render={({ values, errors, setFieldValue }) =>
-      (
-        <Form>
-          <DialogTitle>
-            {stepHeadingMap[step]}
-          </DialogTitle>
-          <DialogContent>
-            <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
-          </DialogContent>
-          <DialogActions>
-            <FormButtons />
-          </DialogActions>
-        </Form>
-      )}
-    />
+    <>
+      <Prompt
+        when={true}
+        message={location => `Are you sure you want to go to ${location.pathname}`}
+      />
+      <Formik
+        initialValues={formValues}
+        onSubmit={handleSubmit}
+        validate={validate}
+        enableReinitialize
+        render={({ values, errors, setFieldValue }) =>
+        (
+          <Form>
+            <DialogTitle>
+              {stepHeadingMap[step]}
+            </DialogTitle>
+            <DialogContent>
+              <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
+            </DialogContent>
+            <DialogActions>
+              <FormButtons />
+            </DialogActions>
+          </Form>
+        )}
+      />
+    </>
   )
 }
 

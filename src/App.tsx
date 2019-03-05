@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import BillingForm from './components/BillingForm';
 import BillingContextProvider from './context/BillingContextProvider';
+import LandingPage from './components/LandingPage';
+import { BillViewer } from './components/BillViewer';
 
 const App = () => (
   <BillingContextProvider>
@@ -12,8 +14,10 @@ const App = () => (
     <div className='app-body'>
       <Router>
         <Switch>
+          <Route exact path="/" component={LandingPage} />
           <Route exact path="/billing" component={BillingPage} />
-          <Route exact path="/billing/form" component={BillingForm} />
+          <Route path="/billing/view/:invoiceNum" component={BillViewer} />
+          <Route exact path="/billing/form/new" component={BillingForm} />
         </Switch>
       </Router>
     </div>

@@ -15,7 +15,6 @@ const BillingContextProvider: React.SFC<any> = (props: any) => {
     const bills = getBills()
 
     setBills(await bills)
-
   }
 
   useEffect( () => {

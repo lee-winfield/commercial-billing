@@ -2,8 +2,6 @@ import * as React from 'react'
 import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import { map } from 'lodash'
-import { Modal, Button } from 'react-bootstrap'
-import { TablePreview } from './Confirmation'
 import '@material/card/dist/mdc.card.css';
 import '@material/button/dist/mdc.button.css';
 import '@material/icon-button/dist/mdc.icon-button.css';
@@ -15,22 +13,19 @@ import {
 } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
 import { BillingContext } from 'src/context/BillingContextProvider';
-const { useState, useContext } = React
-
+import { IconButton } from '@rmwc/icon-button'
+import '@rmwc/icon/icon.css';
+import { LinkButton } from './LinkButton';
+const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
-  const [ modalOpen, setModalOpen ] = useState(false)
-  const openModal = () => setModalOpen(true)
-  const closeModal = () => setModalOpen(false)
-
   const { bill } = props
   const { invoiceNum, location, recipientInfo, createdOn } = bill
-  const handleClick = () => openModal()
   
   return (
     <GridCell>
       <Card >
-        <CardPrimaryAction style={{ height: '8rem' }} onClick={handleClick} >
+        <CardPrimaryAction style={{ height: '8rem' }}>
           <div style={{ padding: '0 1rem 1rem 1rem' }}>
             <Typography use='headline5' >
               Invoice: {invoiceNum}
@@ -55,29 +50,18 @@ const BillCard: React.SFC<any> = (props) => {
         </CardPrimaryAction>
         <div style={{ padding: '0 1rem 1rem 1rem' }}>
           <CardActionButtons>
+            <LinkButton to={`/billing/view/${invoiceNum}`} icon={null} label='View Bill' />
             <CardActionButton href={location} onClick={e => {e.stopPropagation()}}>
-              <a href={location} onClick={e => {e.stopPropagation()}} download>Download</a>
+              <IconButton
+                icon="cloud_download"
+                label="Download"
+                tag='a'
+                href={location}
+              />        
             </CardActionButton>
           </CardActionButtons>
         </div>
       </Card>
-      <Modal show={modalOpen} dialogComponentClass='billing-modal'>
-        <Modal.Dialog
-          dialogClassName='billing-modal'
-        >
-          <Modal.Header>
-            <Modal.Title>Bill Information</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <TablePreview
-              document={bill}
-            />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={closeModal}>Close</Button>
-          </Modal.Footer>
-        </Modal.Dialog>
-      </Modal>
     </GridCell>
   )
 }
@@ -86,9 +70,10 @@ const Cards: React.SFC = (props) => {
   const { bills } = useContext(BillingContext)  
   
   return (
-  <Grid className='card-panel'>
-    {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
-  </Grid>
-)}
+    <Grid className='card-panel'>
+      {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
+    </Grid>
+  )
+}
 
 export default Cards
