@@ -4,7 +4,7 @@ import { LinkButton } from './LinkButton';
 import { get, find } from 'lodash'
 import { BillingContext } from 'src/context/BillingContextProvider';
 import { Typography } from '@rmwc/typography';
-import { Grid, GridCell, GridInner } from '@rmwc/grid';
+import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import '@material/typography/dist/mdc.typography.css';
 const { useContext } = React

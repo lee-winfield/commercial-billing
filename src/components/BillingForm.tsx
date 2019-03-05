@@ -1,11 +1,10 @@
 import * as React from 'react'
-import {
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from '@rmwc/dialog';
+import { Grid, GridCell } from '@rmwc/grid';
+import '@material/layout-grid/dist/mdc.layout-grid.css';
+import { Typography } from '@rmwc/typography';
 import '@material/dialog/dist/mdc.dialog.css';
 import '@material/button/dist/mdc.button.css';
+import '@material/typography/dist/mdc.typography.css';
 import { Button } from '@rmwc/button';
 import axios from 'axios'
 import { Formik, Form, FormikActions } from 'formik';
@@ -121,15 +120,23 @@ const BillingForm: React.SFC<any> = (props) => {
         render={({ values, errors, setFieldValue }) =>
         (
           <Form>
-            <DialogTitle>
-              {stepHeadingMap[step]}
-            </DialogTitle>
-            <DialogContent>
-              <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
-            </DialogContent>
-            <DialogActions>
-              <FormButtons />
-            </DialogActions>
+            <Grid>
+              <GridCell span={12}>
+                <Typography use='headline6'>
+                  {stepHeadingMap[step]}
+                </Typography>
+              </GridCell>
+            </Grid>
+            <Grid>
+              <GridCell span={12}>
+                <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
+              </GridCell>
+            </Grid>
+            <Grid>
+              <GridCell span={12}>
+                <FormButtons />
+              </GridCell>
+            </Grid>
           </Form>
         )}
       />

@@ -2,7 +2,6 @@ import * as React from 'react'
 import { map, reduce } from 'lodash'
 import {
   DataTable,
-  DataTableContent,
   DataTableHead,
   DataTableBody,
   DataTableHeadCell,
@@ -10,7 +9,7 @@ import {
   DataTableCell
 } from '@rmwc/data-table';
 import { Typography } from '@rmwc/typography';
-import { Grid, GridCell, GridInner } from '@rmwc/grid';
+import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import '@material/typography/dist/mdc.typography.css';
 import '@rmwc/data-table/data-table.css';
