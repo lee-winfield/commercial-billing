@@ -70,7 +70,7 @@ const Cards: React.SFC = (props) => {
   const { bills } = useContext(BillingContext)  
   
   return (
-    <Grid className='card-panel'>
+    <Grid>
       {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
     </Grid>
   )

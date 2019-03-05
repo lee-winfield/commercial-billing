@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { Modal, Button } from 'react-bootstrap'
 import { TablePreview } from './Confirmation'
 import { LinkButton } from './LinkButton';
 import { get, find } from 'lodash'
 import { BillingContext } from 'src/context/BillingContextProvider';
+import { Typography } from '@rmwc/typography';
+import { Grid, GridCell, GridInner } from '@rmwc/grid';
+import '@material/layout-grid/dist/mdc.layout-grid.css';
+import '@material/typography/dist/mdc.typography.css';
 const { useContext } = React
 
 export const BillViewer = (props) => {
@@ -12,22 +15,18 @@ export const BillViewer = (props) => {
   const bill = find(bills, (bill) => bill.invoiceNum === Number(invoiceNum), null)
   
   return (
-    <Modal show={true} dialogComponentClass='billing-modal'>
-      <Modal.Dialog
-        dialogClassName='billing-modal'
-      >
-        <Modal.Header>
-          <Modal.Title>Bill Information</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {bill ? <TablePreview
-            document={bill}
-          /> : null}
-        </Modal.Body>
-        <Modal.Footer>
-          <LinkButton to='/billing' icon={null} label='Close' />
-        </Modal.Footer>
-      </Modal.Dialog>
-    </Modal>
+    <>
+      <Grid>
+        <GridCell span={12}>
+          <Typography use='headline6'>
+            Bill Information
+          </Typography>
+        </GridCell>
+      </Grid>
+        {bill ? <TablePreview document={bill}/> : null}
+      <Grid>
+        <LinkButton to='/billing' icon={null} label='Close' />
+      </Grid>
+    </>
   )
 }
