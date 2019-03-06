@@ -10,7 +10,7 @@ import axios from 'axios'
 import { Formik, Form, FormikActions } from 'formik';
 import BillSourceForm from './BillSourceForm';
 import RecipientForm from './RecipientForm';
-import Confirmation from './Confirmation';
+import Submission from './Submission';
 import formatValuesForDocuments from '../helpers/formatValuesForDocuments';
 import validate from '../helpers/validate';
 import { isEmpty } from  'lodash'
@@ -19,7 +19,7 @@ import getSources from 'src/helpers/getSources';
 import { BillingContext } from 'src/context/BillingContextProvider';
 import getNextInvoiceNum from 'src/helpers/getNextInvoiceNum';
 import { LinkButton } from './LinkButton';
-import { Prompt } from 'react-router-dom'
+import { Prompt, Redirect } from 'react-router-dom'
 const { useState, useEffect, useContext } = React
 
 const Stepper = ({ values, errors, setFieldValue, step }) => {
@@ -32,7 +32,7 @@ const Stepper = ({ values, errors, setFieldValue, step }) => {
       <RecipientForm values={values} setFieldValue={setFieldValue} />
     )
     case 3: return (
-      <Confirmation documents={documents} errors={errors} />
+      <Submission documents={documents} errors={errors} />
     )
     default: return null
   }
@@ -43,6 +43,7 @@ const BillingForm: React.SFC<any> = (props) => {
   const [ step, setStep ] = useState(1)
   const [ recipients, setRecipients ] = useState([])
   const [ sources, setSources ] = useState([])
+  const [ redirect, setRedirect ] = useState(false)
 
   async function initialize() {
     const recipients = getRecipients()
@@ -54,25 +55,25 @@ const BillingForm: React.SFC<any> = (props) => {
 
   useEffect( () => {
     initialize()
-
-    window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
-  }, [])
+    if (!redirect) {
+      window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
+    }
+  }, [redirect])
 
   const nextStep = () => setStep(step + 1)
   const previousStep = () => setStep(step - 1)
-  const resetStepper = () => setStep(1)
   const stepHeadingMap = {
     1: 'Step 1: Add Bill Source',
     2: 'Step 2: Allocate to Recipients',
-    3: 'Step 3: Confirmation',
+    3: 'Step 3: Submission',
   }
 
   const FormButtons = () => (
     <>
-      <LinkButton to='/billing' label='Close' icon={null} />
+      <LinkButton to='/billing' label='Go Home' icon={null} />
       { step > 1 ? <Button onClick={previousStep} >Previous</Button> : null}
       { step < 3 ? <Button onClick={nextStep} >Next</Button> : null}
-      { step === 3 ? <Button type='submit' >Confirm</Button> : null}
+      { step === 3 ? <Button type='submit' >Submit</Button> : null}
     </>
   )
 
@@ -101,17 +102,18 @@ const BillingForm: React.SFC<any> = (props) => {
     })
 
     if (isEmpty(isValid)) {
-      resetStepper()
       actions.resetForm()
+      setRedirect(true)
     }
   }
 
   return (
     <>
-      <Prompt
+      {!redirect ? <Prompt
         when={true}
-        message={location => `Are you sure you want to go to ${location.pathname}`}
-      />
+        message={location => 'Are you sure you want to go to leave this page?'}
+      /> : null}
+      {redirect ? <Redirect to='/billing' /> : null}
       <Formik
         initialValues={formValues}
         onSubmit={handleSubmit}

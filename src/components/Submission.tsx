@@ -85,7 +85,7 @@ export const TablePreview = ({ document }) => {
   </GridTile>)
 }
 
-const Confirmation = ({ documents, errors }) => {
+const Submission = ({ documents, errors }) => {
 
   return (<>
     <GridList>
@@ -99,4 +99,4 @@ const Confirmation = ({ documents, errors }) => {
   </>)
 }
 
-export default Confirmation
+export default Submission

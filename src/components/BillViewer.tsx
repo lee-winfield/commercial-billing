@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TablePreview } from './Confirmation'
+import { TablePreview } from './Submission'
 import { LinkButton } from './LinkButton';
 import { get, find } from 'lodash'
 import { BillingContext } from 'src/context/BillingContextProvider';
