@@ -22,10 +22,12 @@ export const BillViewer = (props) => {
             Bill Information
           </Typography>
         </GridCell>
-      </Grid>
-        {bill ? <TablePreview document={bill}/> : null}
-      <Grid>
-        <LinkButton to='/billing' icon={null} label='Close' />
+        <GridCell span={12}>
+          <LinkButton to='/billing' icon={null} label='Close' />
+        </GridCell>
+        <GridCell span={12}>
+          {bill ? <TablePreview document={bill}/> : null}
+        </GridCell>
       </Grid>
     </>
   )

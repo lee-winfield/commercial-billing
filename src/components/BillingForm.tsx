@@ -126,9 +126,7 @@ const BillingForm: React.SFC<any> = (props) => {
                   {stepHeadingMap[step]}
                 </Typography>
               </GridCell>
-            </Grid>
-            <Grid style={{ margin: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
-              <GridCell span={12}>
+              <GridCell span={12} style={{ margin: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
                 <FormButtons />
               </GridCell>
             </Grid>
