@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import { map } from 'lodash'
 import '@material/card/dist/mdc.card.css';
@@ -16,6 +15,10 @@ import { BillingContext } from 'src/context/BillingContextProvider';
 import { IconButton } from '@rmwc/icon-button'
 import '@rmwc/icon/icon.css';
 import { LinkButton } from './LinkButton';
+import {
+  GridTile, GridList,
+} from '@rmwc/grid-list';
+import '@material/grid-list/dist/mdc.grid-list.css';
 const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
@@ -23,7 +26,7 @@ const BillCard: React.SFC<any> = (props) => {
   const { invoiceNum, location, recipientInfo, createdOn } = bill
   
   return (
-    <GridCell>
+    <GridTile style={{ width: '300px' }}>
       <Card >
         <CardPrimaryAction style={{ height: '8rem' }}>
           <div style={{ padding: '0 1rem 1rem 1rem' }}>
@@ -62,7 +65,7 @@ const BillCard: React.SFC<any> = (props) => {
           </CardActionButtons>
         </div>
       </Card>
-    </GridCell>
+    </GridTile>
   )
 }
 
@@ -70,9 +73,9 @@ const Cards: React.SFC = (props) => {
   const { bills } = useContext(BillingContext)  
   
   return (
-    <Grid>
+    <GridList>
       {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
-    </Grid>
+    </GridList>
   )
 }
 

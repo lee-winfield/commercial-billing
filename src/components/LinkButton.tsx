@@ -7,7 +7,7 @@ import '@material/button/dist/mdc.button.css'
 
 export const LinkFab = ({ icon, to }) => (
   <Link to={to} style={{ textDecoration: 'none' }}>
-    <Fab icon={icon} label='Create' onClick={() => null} />
+    <Fab icon={icon} label='Create' onClick={() => null} style={{ margin: '0 0 1em 1em' }} />
   </Link>
 )
 
