@@ -28,30 +28,28 @@ const BillCard: React.SFC<any> = (props) => {
   
   return (
     <GridTile style={{ width: '300px' }}>
-      <Card >
-        <CardPrimaryAction style={{ height: '8rem' }}>
-          <div style={{ padding: '0 1rem 1rem 1rem' }}>
-            <Typography use='headline5' >
-              Invoice: {invoiceNum}
-            </Typography>
-          </div>
-          <div style={{ padding: '0 1rem 1rem 1rem' }}>
-            <Typography use="body1">
-              <div>
-                <strong>
-                  {'Recipient: '}
-                </strong>
-                {recipientInfo.name}
-              </div>
-              <div>
-                <strong>
-                  {'Date Created: '}
-                </strong>
-                {createdOn ? new Date(createdOn).toDateString() : 'N/A'}
-              </div>
-            </Typography>
-          </div>
-        </CardPrimaryAction>
+      <Card style={{ margin: '10px'}}>
+        <div style={{ padding: '0 1rem 1rem 1rem' }}>
+          <Typography use='headline5' >
+            Invoice: {invoiceNum}
+          </Typography>
+        </div>
+        <div style={{ padding: '0 1rem 1rem 1rem' }}>
+          <Typography use="body1">
+            <div>
+              <strong>
+                {'Recipient: '}
+              </strong>
+              {recipientInfo.name}
+            </div>
+            <div>
+              <strong>
+                {'Date Created: '}
+              </strong>
+              {createdOn ? new Date(createdOn).toDateString() : 'N/A'}
+            </div>
+          </Typography>
+        </div>
         <div style={{ padding: '0 1rem 1rem 1rem' }}>
           <CardActionButtons>
             <LinkButton to={`/billing/view/${invoiceNum}`} icon='visibility' label='View' />
