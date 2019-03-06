@@ -19,6 +19,7 @@ import {
   GridTile, GridList,
 } from '@rmwc/grid-list';
 import '@material/grid-list/dist/mdc.grid-list.css';
+import { sortBy } from 'lodash'
 const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
@@ -70,11 +71,12 @@ const BillCard: React.SFC<any> = (props) => {
 }
 
 const Cards: React.SFC = (props) => {
-  const { bills } = useContext(BillingContext)  
+  const { bills } = useContext(BillingContext)
+  const sortedBills = sortBy(bills, (bill) => - bill.invoiceNum)
   
   return (
     <GridList>
-      {map(bills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
+      {map(sortedBills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}
     </GridList>
   )
 }
