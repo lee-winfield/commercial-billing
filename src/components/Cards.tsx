@@ -12,7 +12,7 @@ import {
 } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
 import { BillingContext } from 'src/context/BillingContextProvider';
-import { IconButton } from '@rmwc/icon-button'
+import { Button } from '@rmwc/button'
 import '@rmwc/icon/icon.css';
 import { LinkButton } from './LinkButton';
 import {
@@ -54,9 +54,9 @@ const BillCard: React.SFC<any> = (props) => {
         </CardPrimaryAction>
         <div style={{ padding: '0 1rem 1rem 1rem' }}>
           <CardActionButtons>
-            <LinkButton to={`/billing/view/${invoiceNum}`} icon={null} label='View Bill' />
+            <LinkButton to={`/billing/view/${invoiceNum}`} icon='visibility' label='View' />
             <CardActionButton href={location} onClick={e => {e.stopPropagation()}}>
-              <IconButton
+              <Button
                 icon="cloud_download"
                 label="Download"
                 tag='a'
