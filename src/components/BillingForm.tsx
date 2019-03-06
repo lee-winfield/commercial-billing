@@ -127,14 +127,14 @@ const BillingForm: React.SFC<any> = (props) => {
                 </Typography>
               </GridCell>
             </Grid>
-            <Grid>
+            <Grid style={{ margin: '0px', paddingTop: '0px', paddingBottom: '0px' }}>
               <GridCell span={12}>
-                <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
+                <FormButtons />
               </GridCell>
             </Grid>
             <Grid>
               <GridCell span={12}>
-                <FormButtons />
+                <Stepper values={values} errors={errors} setFieldValue={setFieldValue} step={step} />
               </GridCell>
             </Grid>
           </Form>
