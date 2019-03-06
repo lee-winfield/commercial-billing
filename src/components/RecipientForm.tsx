@@ -14,16 +14,19 @@ import '@rmwc/data-table/data-table.css';
 import '@material/card/dist/mdc.card.css';
 import '@material/button/dist/mdc.button.css';
 import '@material/icon-button/dist/mdc.icon-button.css';
+import '@material/grid-list/dist/mdc.grid-list.css';
 import {
   Card,
-  CardPrimaryAction,
-  CardMedia,
-  CardActionButton,
-  CardActionIcon,
-  CardActions,
-  CardActionButtons,
-  CardActionIcons
 } from '@rmwc/card';
+import {
+  GridList,
+  GridTile,
+  GridTileIcon,
+  GridTilePrimary,
+  GridTilePrimaryContent,
+  GridTileSecondary,
+  GridTileTitle
+} from '@rmwc/grid-list';
 
 
 const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disabled, setFieldValue, values }) => {
@@ -47,7 +50,7 @@ const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disa
         </span>
       </DataTableCell>
       <DataTableCell>
-        <input type='number' value={percentage} onChange={setPercentage} disabled={!allocated} />
+        <input style={{ width: '45px' }} type='number' value={percentage} onChange={setPercentage} disabled={!allocated} />
       </DataTableCell>
     </DataTableRow>
   )
@@ -111,16 +114,22 @@ const RecipientInputs = ({ recipient, setFieldValue, values }) => {
 const RecipientForm = ({ values, setFieldValue }) => {
   const { recipients } = values
 
-  return (<>
-    {recipients.map(
-      recipient => (<RecipientInputs
-        key={recipient.id}
-        recipient={recipient}
-        setFieldValue={setFieldValue}
-        values={values}
-      />)
-    )}
-  </>)
+  return (
+    <GridList>
+      {recipients.map(
+        recipient => (
+          <GridTile style={{ width: '305px' }}>
+            <RecipientInputs
+              key={recipient.id}
+              recipient={recipient}
+              setFieldValue={setFieldValue}
+              values={values}
+            />
+          </GridTile>
+        )
+      )}
+    </ GridList>
+  )
 }
 
 export default  RecipientForm
