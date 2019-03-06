@@ -21,11 +21,6 @@ import {
 import {
   GridList,
   GridTile,
-  GridTileIcon,
-  GridTilePrimary,
-  GridTilePrimaryContent,
-  GridTileSecondary,
-  GridTileTitle
 } from '@rmwc/grid-list';
 
 
@@ -118,7 +113,7 @@ const RecipientForm = ({ values, setFieldValue }) => {
     <GridList>
       {recipients.map(
         recipient => (
-          <GridTile style={{ width: '305px' }}>
+          <GridTile style={{ width: 'fit-content' }}>
             <RecipientInputs
               key={recipient.id}
               recipient={recipient}
