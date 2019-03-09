@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import { Typography } from '@rmwc/typography';
-import '@material/dialog/dist/mdc.dialog.css';
 import '@material/button/dist/mdc.button.css';
 import '@material/typography/dist/mdc.typography.css';
 import { Button } from '@rmwc/button';
