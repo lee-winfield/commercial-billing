@@ -22,7 +22,8 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
       values.recipients.forEach(recipient => {
         const { allocations, defaultPercentage } = recipient
         const recipientIndex = findIndex(values.recipients, ['id', recipient.id])
-        const updatedAllocations = [...allocations, { sourceId: id, allocated: true, percentage: defaultPercentage } ]
+        //TODO: fix hacky solution below
+        const updatedAllocations = [...allocations, { sourceId: id, allocated: defaultPercentage !== 100, percentage: defaultPercentage !== 100 ? defaultPercentage : 0 } ]
         setFieldValue(`recipients[${recipientIndex}].allocations`, updatedAllocations)
       })
     } else {
