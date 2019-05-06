@@ -40,7 +40,7 @@ const getSources = async () => {
     },
   ]
 
-  return [...sources, ...blankSources]
+  return [...sources, ...blankSources].sort((x, y)=> x.id - y.id)
 }
 
 export default getSources
