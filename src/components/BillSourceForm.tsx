@@ -9,6 +9,8 @@ import {
   DataTableCell
 } from '@rmwc/data-table';
 import '@rmwc/data-table/data-table.css';
+import CurrencyInput from 'react-currency-input';
+
 
 import { findIndex, filter } from 'lodash'
 
@@ -61,7 +63,8 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
         <input type='text' value={name} onChange={setName} disabled={!included} />
       </DataTableCell>
       <DataTableCell>
-        <input type='number' value={amount} onChange={setAmount} disabled={!included} />
+      <CurrencyInput value={amount} onChangeEvent={setAmount} disabled={!included}/>
+        {/* <input type='number' value={amount} onChange={setAmount} disabled={!included} /> */}
       </DataTableCell>
     </DataTableRow>
   )
