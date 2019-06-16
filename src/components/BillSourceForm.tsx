@@ -64,7 +64,6 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
       </DataTableCell>
       <DataTableCell>
       <CurrencyInput value={amount} onChangeEvent={setAmount} disabled={!included}/>
-        {/* <input type='number' value={amount} onChange={setAmount} disabled={!included} /> */}
       </DataTableCell>
     </DataTableRow>
   )

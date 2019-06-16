@@ -19,7 +19,7 @@ const formatValuesForDocuments = (values) => {
                 name,
                 amount,
                 percentage,
-                recipientCharge: amount * percentage / 100,
+                recipientCharge: amount && Number(amount.replace(/[^0-9.-]+/g,"")) * percentage / 100,
               },
             ]
 
