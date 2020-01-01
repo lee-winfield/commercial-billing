@@ -1,9 +1,15 @@
 import { reduce, filter } from 'lodash'
+import { RecipientInterface } from './getRecipients';
+import { SourceInterface } from './getSources';
 
-const validate = (values) => {
+
+const validate = (values: {
+  recipients: RecipientInterface[],
+  sources: SourceInterface[],
+}) => {
   const { recipients, sources } = values
 
-  const getSourceError = (acc, source) => {
+  const getSourceError = (acc: Record<string,string>, source: SourceInterface) => {
     const { serviceDate, name, amount } = source
 
     if (serviceDate.length === 0 || name.length === 0 || amount === 0) {
@@ -17,7 +23,7 @@ const validate = (values) => {
   :
     reduce(filteredSources, getSourceError, {})
 
-  const getRecipientError = (acc, recipient) => {
+  const getRecipientError = (acc: Record<string,string>, recipient: RecipientInterface) => {
     const { allocations, included } = recipient
     if (!included) {
       return acc

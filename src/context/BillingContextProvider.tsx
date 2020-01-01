@@ -1,15 +1,20 @@
 import * as React from 'react'
-import getBills from 'src/helpers/getBills';
+import getBills from '../helpers/getBills';
+import { DocumentInterface } from '../helpers/formatValuesForDocuments';
 const { useState, useEffect } = React
 
+export interface BillingContextInterface {
+  bills: DocumentInterface[] | null;
+  setBills: React.Dispatch<any>;
+}
 
-export const BillingContext = React.createContext({
+export const BillingContext = React.createContext<BillingContextInterface>({
   bills: [],
-  setBills: null,
+  setBills: () => undefined,
 })
 
 const BillingContextProvider: React.SFC<any> = (props: any) => {
-  const [ bills, setBills ] = useState(null)
+  const [ bills, setBills ] = useState<DocumentInterface[] | null>(null)
 
   async function initialize() {
     const bills = getBills()

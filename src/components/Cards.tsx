@@ -6,12 +6,11 @@ import '@material/button/dist/mdc.button.css';
 import '@material/icon-button/dist/mdc.icon-button.css';
 import {
   Card,
-  CardPrimaryAction,
   CardActionButton,
   CardActionButtons,
 } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
-import { BillingContext } from 'src/context/BillingContextProvider';
+import { BillingContext } from '../context/BillingContextProvider';
 import { Button } from '@rmwc/button'
 import '@rmwc/icon/icon.css';
 import { LinkButton } from './LinkButton';
@@ -25,7 +24,7 @@ const { useContext } = React
 const BillCard: React.SFC<any> = (props) => {
   const { bill } = props
   const { invoiceNum, location, recipientInfo, createdOn } = bill
-  
+
   return (
     <GridTile style={{ width: '300px' }}>
       <Card style={{ margin: '10px'}}>
@@ -59,7 +58,7 @@ const BillCard: React.SFC<any> = (props) => {
                 label="Download"
                 tag='a'
                 href={location}
-              />        
+              />
             </CardActionButton>
           </CardActionButtons>
         </div>
@@ -71,7 +70,7 @@ const BillCard: React.SFC<any> = (props) => {
 const Cards: React.SFC = (props) => {
   const { bills } = useContext(BillingContext)
   const sortedBills = sortBy(bills, (bill) => - bill.invoiceNum)
-  
+
   return (
     <GridList>
       {map(sortedBills, bill => (<BillCard key={bill.invoiceNum} bill={bill}/>))}

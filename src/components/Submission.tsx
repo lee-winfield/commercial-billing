@@ -22,8 +22,14 @@ import {
 import {
   Card,
 } from '@rmwc/card';
+import { LineItemInterface } from '../helpers/getBills';
+import { DocumentInterface } from '../helpers/formatValuesForDocuments';
 
-const LineItem = ({ lineItem } ) => {
+interface LineItemProps {
+  lineItem: LineItemInterface;
+}
+
+const LineItem = ({ lineItem }: LineItemProps ) => {
   const {serviceDate, name, amount, percentage, recipientCharge} = lineItem
   return (
     <DataTableRow>
@@ -36,7 +42,13 @@ const LineItem = ({ lineItem } ) => {
   )
 }
 
-export const TablePreview = ({ document }) => {
+
+
+interface TablePreviewProps {
+  document: DocumentInterface;
+}
+
+export const TablePreview = ({ document }: TablePreviewProps) => {
   const { lineItems, invoiceNum, recipientInfo } = document
   const { name: recipientName } = recipientInfo
   const totalBill = reduce(lineItems, (acc, { recipientCharge }) => acc + recipientCharge, 0)
@@ -85,7 +97,14 @@ export const TablePreview = ({ document }) => {
   </GridTile>)
 }
 
-const Submission = ({ documents, errors }) => {
+interface SubmissionProps {
+  documents: DocumentInterface[];
+  errors: {
+    sources: string | null;
+    recipients: string | null;
+  }
+}
+const Submission = ({ documents, errors }: SubmissionProps) => {
 
   return (<>
     <GridList>

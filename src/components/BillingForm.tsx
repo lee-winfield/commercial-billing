@@ -6,22 +6,29 @@ import '@material/button/dist/mdc.button.css';
 import '@material/typography/dist/mdc.typography.css';
 import { Button } from '@rmwc/button';
 import axios from 'axios'
-import { Formik, Form, FormikActions } from 'formik';
+import { Formik, Form, FormikHelpers } from 'formik';
 import BillSourceForm from './BillSourceForm';
 import RecipientForm from './RecipientForm';
 import Submission from './Submission';
 import formatValuesForDocuments from '../helpers/formatValuesForDocuments';
 import validate from '../helpers/validate';
 import { isEmpty } from  'lodash'
-import getRecipients from 'src/helpers/getRecipients';
-import getSources from 'src/helpers/getSources';
-import { BillingContext } from 'src/context/BillingContextProvider';
-import getNextInvoiceNum from 'src/helpers/getNextInvoiceNum';
+import getRecipients, { RecipientInterface } from '../helpers/getRecipients';
+import getSources, { SourceInterface } from '../helpers/getSources';
+import { BillingContext, BillingContextInterface } from '../context/BillingContextProvider';
+import getNextInvoiceNum from '../helpers/getNextInvoiceNum';
 import { LinkButton } from './LinkButton';
 import { Prompt, Redirect } from 'react-router-dom'
 const { useState, useEffect, useContext } = React
 
-const Stepper = ({ values, errors, setFieldValue, step }) => {
+interface StepperProps {
+  values: any;
+  errors: any;
+  setFieldValue: any;
+  step: number;
+}
+
+const Stepper = ({ values, errors, setFieldValue, step }: StepperProps) => {
   const documents = formatValuesForDocuments(values)
   switch (step) {
     case 1: return (
@@ -38,11 +45,11 @@ const Stepper = ({ values, errors, setFieldValue, step }) => {
 }
 
 const BillingForm: React.SFC<any> = (props) => {
-  const { bills, setBills } = useContext(BillingContext)
-  const [ step, setStep ] = useState(1)
-  const [ recipients, setRecipients ] = useState([])
-  const [ sources, setSources ] = useState([])
-  const [ redirect, setRedirect ] = useState(false)
+  const { bills, setBills } = useContext<BillingContextInterface>(BillingContext)
+  const [ step, setStep ] = useState<number>(1)
+  const [ recipients, setRecipients ] = useState<RecipientInterface[]>([])
+  const [ sources, setSources ] = useState<SourceInterface[]>([])
+  const [ redirect, setRedirect ] = useState<boolean>(false)
 
   async function initialize() {
     const recipients = getRecipients()
@@ -55,13 +62,14 @@ const BillingForm: React.SFC<any> = (props) => {
   useEffect( () => {
     initialize()
     if (!redirect) {
-      window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"  
+      window.onbeforeunload = () => "Are you certain that you want to leave? Work may be lost"
     }
   }, [redirect])
 
   const nextStep = () => setStep(step + 1)
   const previousStep = () => setStep(step - 1)
-  const stepHeadingMap = {
+
+  const stepHeadingMap: Record<number, string> = {
     1: 'Step 1: Add Bill Source',
     2: 'Step 2: Allocate to Recipients',
     3: 'Step 3: Submission',
@@ -76,15 +84,15 @@ const BillingForm: React.SFC<any> = (props) => {
     </>
   )
 
-  const nextInvoiceNum = getNextInvoiceNum(bills)
-  
+  const nextInvoiceNum = bills ? getNextInvoiceNum(bills) : null
+
   const formValues = {
     sources,
     recipients,
     nextInvoiceNum,
   }
 
-  const handleSubmit = async (values: any, actions: FormikActions<any>) => {
+  const handleSubmit = async (values: any, actions: FormikHelpers<any>) => {
     const url = 'https://1pks1bu0k9.execute-api.us-east-2.amazonaws.com/default/commercialBillingApi'
     const documents = formatValuesForDocuments(values)
     const isValid = await actions.validateForm(values)
@@ -97,7 +105,9 @@ const BillingForm: React.SFC<any> = (props) => {
         },
       })
       await axios.post(url, body)
-      setBills([...bills, document])
+      if (bills) {
+        setBills([...bills, document])
+      }
     })
 
     if (isEmpty(isValid)) {

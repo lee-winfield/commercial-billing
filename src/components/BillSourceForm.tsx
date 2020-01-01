@@ -9,13 +9,29 @@ import {
   DataTableCell
 } from '@rmwc/data-table';
 import '@rmwc/data-table/data-table.css';
-import CurrencyInput from 'react-currency-input';
-
-
 import { findIndex, filter } from 'lodash'
+import { SourceInterface } from '../helpers/getSources';
+import { RecipientInterface } from '../helpers/getRecipients';
+const CurrencyInput = require('react-currency-input');
 
+interface BillSourceInputsProps {
+  billSource: SourceInterface;
+  setFieldValue: (field: string, value: any) => undefined;
+  values: {
+    recipients: RecipientInterface[];
+    sources: SourceInterface[];
+  };
+}
 
-const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
+interface BillSourceFormProps {
+  setFieldValue: (field: string, value: any) => undefined;
+  values: {
+    recipients: RecipientInterface[];
+    sources: SourceInterface[];
+  };
+}
+
+const BillSourceInputs = ({ billSource, setFieldValue, values }: BillSourceInputsProps) => {
   const { id, serviceDate, name, included, amount } = billSource
 
   const index = findIndex(values.sources, ['id', id])
@@ -34,20 +50,20 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
         const recipientIndex = findIndex(values.recipients, ['id', recipient.id])
         const updatedAllocations = filter(allocations, ({ sourceId }) => sourceId !== id)
         setFieldValue(`recipients[${recipientIndex}].allocations`, updatedAllocations)
-      }) 
+      })
     }
   }
   const toggleCheckBox = () => {
     updateAllocations()
     setFieldValue(`sources[${index}].included`, !included )
   }
-  const setName = (e) => {
+  const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue(`sources[${index}].name`, e.target.value)
   }
-  const setServiceDate = (e) => {
+  const setServiceDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue(`sources[${index}].serviceDate`, e.target.value)
   }
-  const setAmount = (e) => {
+  const setAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue(`sources[${index}].amount`, e.target.value)
   }
 
@@ -68,7 +84,7 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }) => {
     </DataTableRow>
   )
 }
-const BillSourceForm = ({ values, setFieldValue }) => {
+const BillSourceForm = ({ values, setFieldValue }: BillSourceFormProps) => {
   const { sources } = values
 
   return (<DataTable>

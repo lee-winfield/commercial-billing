@@ -22,9 +22,27 @@ import {
   GridList,
   GridTile,
 } from '@rmwc/grid-list';
+import { AllocationInterface, RecipientInterface } from '../helpers/getRecipients';
 
+interface AllocationProps {
+  recipientId: number;
+  recipientIndex: number;
+  allocation: AllocationInterface;
+  allocations: AllocationInterface[];
+  disabled: boolean;
+  setFieldValue: (field: string, value: any) => undefined;
+  values: any;
+}
 
-const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disabled, setFieldValue, values }) => {
+const Allocation = ({
+  recipientId,
+  recipientIndex,
+  allocation,
+  allocations,
+  disabled,
+  setFieldValue,
+  values,
+}: AllocationProps) => {
   const { sourceId, allocated, percentage } = allocation
   const allocationIndex = findIndex(allocations, ['sourceId', sourceId])
   const source = find(values.sources, ['id', sourceId])
@@ -32,7 +50,7 @@ const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disa
   const toggleCheckBox = () => {
     setFieldValue(`recipients[${recipientIndex}].allocations[${allocationIndex}].allocated`, !allocated)
   }
-  const setPercentage = (e) => {
+  const setPercentage = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue(`recipients[${recipientIndex}].allocations[${allocationIndex}].percentage`, e.target.value)
   }
 
@@ -51,7 +69,23 @@ const Allocation = ({ recipientId, recipientIndex, allocation, allocations, disa
   )
 }
 
-const AllocationInputs = ({ disabled, allocations, recipientId, recipientIndex, values, setFieldValue }) => {
+interface AllocationInputsProps {
+  disabled: boolean;
+  allocations: AllocationInterface[];
+  recipientId: number;
+  recipientIndex: number;
+  values: any;
+  setFieldValue: (field: string, value: any) => undefined
+}
+
+const AllocationInputs = ({
+  disabled,
+  allocations,
+  recipientId,
+  recipientIndex,
+  values,
+  setFieldValue,
+}: AllocationInputsProps) => {
 
   return (
     <DataTable>
@@ -73,8 +107,17 @@ const AllocationInputs = ({ disabled, allocations, recipientId, recipientIndex, 
   )
 }
 
+interface RecipientInputsProps {
+  recipient: RecipientInterface;
+  values: any;
+  setFieldValue: (field: string, value: any) => undefined;
+}
 
-const RecipientInputs = ({ recipient, setFieldValue, values }) => {
+const RecipientInputs = ({
+  recipient,
+  setFieldValue,
+  values,
+}: RecipientInputsProps) => {
   const { id, name, included, allocations } = recipient
 
   const index = findIndex(values.recipients, ['id', id])
@@ -106,7 +149,12 @@ const RecipientInputs = ({ recipient, setFieldValue, values }) => {
     </Card>
   )
 }
-const RecipientForm = ({ values, setFieldValue }) => {
+
+interface RecipientFormProps {
+  values: {recipients: RecipientInterface[]};
+  setFieldValue: (field: string, value: any) => undefined;
+}
+const RecipientForm = ({ values, setFieldValue }: RecipientFormProps) => {
   const { recipients } = values
 
   return (
