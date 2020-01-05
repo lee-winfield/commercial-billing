@@ -12,7 +12,8 @@ import '@rmwc/data-table/data-table.css';
 import { findIndex, filter } from 'lodash'
 import { SourceInterface } from '../helpers/getSources';
 import { RecipientInterface } from '../helpers/getRecipients';
-const CurrencyInput = require('react-currency-input');
+// const CurrencyInput = require('react-currency-input');
+import CurrencyInput from './CurrencyInput';
 
 interface BillSourceInputsProps {
   billSource: SourceInterface;
@@ -33,6 +34,7 @@ interface BillSourceFormProps {
 
 const BillSourceInputs = ({ billSource, setFieldValue, values }: BillSourceInputsProps) => {
   const { id, serviceDate, name, included, amount } = billSource
+  console.log({billSource})
 
   const index = findIndex(values.sources, ['id', id])
   const updateAllocations = () => {
@@ -63,8 +65,9 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }: BillSourceInput
   const setServiceDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFieldValue(`sources[${index}].serviceDate`, e.target.value)
   }
-  const setAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFieldValue(`sources[${index}].amount`, e.target.value)
+  const setAmount = (value: number) => {
+    setFieldValue(`sources[${index}].amount`, value)
+    console.log(value)
   }
 
   return (

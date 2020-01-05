@@ -45,7 +45,7 @@ const Stepper = ({ values, errors, setFieldValue, step }: StepperProps) => {
 }
 
 const BillingForm: React.SFC<any> = (props) => {
-  const { bills, setBills } = useContext<BillingContextInterface>(BillingContext)
+  const { bills, refreshBills } = useContext<BillingContextInterface>(BillingContext)
   const [ step, setStep ] = useState<number>(1)
   const [ recipients, setRecipients ] = useState<RecipientInterface[]>([])
   const [ sources, setSources ] = useState<SourceInterface[]>([])
@@ -105,10 +105,9 @@ const BillingForm: React.SFC<any> = (props) => {
         },
       })
       await axios.post(url, body)
-      if (bills) {
-        setBills([...bills, document])
-      }
     })
+
+    refreshBills()
 
     if (isEmpty(isValid)) {
       actions.resetForm()

@@ -6,7 +6,8 @@ import {
   DataTableBody,
   DataTableHeadCell,
   DataTableRow,
-  DataTableCell
+  DataTableCell,
+  DataTableContent
 } from '@rmwc/data-table';
 import { Typography } from '@rmwc/typography';
 import { Grid, GridCell } from '@rmwc/grid';
@@ -65,31 +66,33 @@ export const TablePreview = ({ document }: TablePreviewProps) => {
       <Grid>
         <GridCell span={12}>
           <DataTable>
-            <DataTableHead>
-              <DataTableRow>
-                <DataTableHeadCell>Date Range</DataTableHeadCell>
-                <DataTableHeadCell>Recipient</DataTableHeadCell>
-                <DataTableHeadCell>Total Bill</DataTableHeadCell>
-                <DataTableHeadCell>Percentage</DataTableHeadCell>
-                <DataTableHeadCell>Amount Owed</DataTableHeadCell>
-              </DataTableRow>
-            </DataTableHead>
-            <DataTableBody>
-              {map(
-                lineItems,
-                lineItem => (<LineItem
-                  lineItem={lineItem}
-                  key={`${recipientName}-${invoiceNum}-${lineItem.name}`}
-                />)
-              )}
-              <DataTableRow>
-                <DataTableCell></DataTableCell>
-                <DataTableCell></DataTableCell>
-                <DataTableCell></DataTableCell>
-                <DataTableCell></DataTableCell>
-                <DataTableCell>{totalBill}</DataTableCell>
-              </DataTableRow>
-            </DataTableBody>
+            <DataTableContent>
+              <DataTableHead>
+                <DataTableRow>
+                  <DataTableHeadCell>Date Range</DataTableHeadCell>
+                  <DataTableHeadCell>Recipient</DataTableHeadCell>
+                  <DataTableHeadCell>Total Bill</DataTableHeadCell>
+                  <DataTableHeadCell>Percentage</DataTableHeadCell>
+                  <DataTableHeadCell>Amount Owed</DataTableHeadCell>
+                </DataTableRow>
+              </DataTableHead>
+              <DataTableBody>
+                {map(
+                  lineItems,
+                  lineItem => (<LineItem
+                    lineItem={lineItem}
+                    key={`${recipientName}-${invoiceNum}-${lineItem.name}`}
+                    />)
+                    )}
+                <DataTableRow>
+                  <DataTableCell></DataTableCell>
+                  <DataTableCell></DataTableCell>
+                  <DataTableCell></DataTableCell>
+                  <DataTableCell></DataTableCell>
+                  <DataTableCell>{totalBill}</DataTableCell>
+                </DataTableRow>
+              </DataTableBody>
+            </DataTableContent>
           </DataTable>
         </GridCell>
       </Grid>

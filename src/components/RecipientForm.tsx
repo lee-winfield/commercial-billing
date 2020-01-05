@@ -7,7 +7,8 @@ import {
   DataTable,
   DataTableBody,
   DataTableRow,
-  DataTableCell
+  DataTableCell,
+  DataTableContent
 } from '@rmwc/data-table';
 import '@material/typography/dist/mdc.typography.css';
 import '@rmwc/data-table/data-table.css';
@@ -89,9 +90,10 @@ const AllocationInputs = ({
 
   return (
     <DataTable>
-      <DataTableBody>
-        {allocations.map( allocation => (
-          <Allocation
+      <DataTableContent>
+        <DataTableBody>
+          {allocations.map( allocation => (
+            <Allocation
             key={`${recipientId}-${allocation.sourceId}`}
             recipientId={recipientId}
             recipientIndex={recipientIndex}
@@ -100,9 +102,10 @@ const AllocationInputs = ({
             disabled={disabled}
             setFieldValue={setFieldValue}
             values={values}
-          />
-        ))}
-      </DataTableBody>
+            />
+            ))}
+        </DataTableBody>
+      </DataTableContent>
     </DataTable>
   )
 }

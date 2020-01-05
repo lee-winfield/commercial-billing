@@ -6,11 +6,13 @@ const { useState, useEffect } = React
 export interface BillingContextInterface {
   bills: DocumentInterface[] | null;
   setBills: React.Dispatch<any>;
+  refreshBills: () => Promise<void>;
 }
 
 export const BillingContext = React.createContext<BillingContextInterface>({
   bills: [],
   setBills: () => undefined,
+  refreshBills: async () => undefined,
 })
 
 const BillingContextProvider: React.SFC<any> = (props: any) => {
@@ -21,13 +23,18 @@ const BillingContextProvider: React.SFC<any> = (props: any) => {
 
     setBills(await bills)
   }
+  const refreshBills = async () => {
+    const bills = getBills()
+
+    setBills(await bills)
+  }
 
   useEffect( () => {
     initialize()
   }, [])
 
   return (
-    <BillingContext.Provider value={{ bills, setBills }}>
+    <BillingContext.Provider value={{ bills, setBills, refreshBills }}>
       {props.children}
     </BillingContext.Provider>
   )

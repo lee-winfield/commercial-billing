@@ -33,9 +33,9 @@ const formatValuesForDocuments: (values: {
             {
               serviceDate,
               name,
-              amount,
+              amount: amount/100,
               percentage,
-              recipientCharge: amount && Number(String(amount).replace(/[^0-9.-]+/g,"")) * percentage / 100,
+              recipientCharge: amount && Number(amount) * percentage / 100 /100,
             },
           ]
 
