@@ -97,11 +97,13 @@ const BillingForm: React.SFC<any> = (props) => {
     const documents = formatValuesForDocuments(values)
     const isValid = await actions.validateForm(values)
     await documents.forEach(async (document) => {
-      const { invoiceNum, lineItems, recipientInfo, location, createdOn } = document
+      const { invoiceNum, lineItems, recipientInfo, location, createdOn, fileName } = document
+
+
       const body = JSON.stringify({
         TableName: 'Billing',
         Item: {
-          invoiceNum, lineItems, recipientInfo, location, createdOn,
+          invoiceNum, lineItems, recipientInfo, location, createdOn, fileName,
         },
       })
       await axios.post(url, body)

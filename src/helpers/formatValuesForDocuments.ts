@@ -2,6 +2,7 @@ import { reduce, find, map, filter } from 'lodash'
 import { LineItemInterface } from './getBills'
 import { RecipientInterface } from './getRecipients'
 import { SourceInterface } from './getSources'
+import { getCurrentMonth } from './getCurrentMonth'
 
 export interface DocumentInterface {
   lineItems: LineItemInterface[];
@@ -10,6 +11,7 @@ export interface DocumentInterface {
   recipientName?: string;
   createdOn: Date;
   location: string;
+  fileName: string;
 }
 
 const formatValuesForDocuments: (values: {
@@ -47,13 +49,15 @@ const formatValuesForDocuments: (values: {
     }, []) as LineItemInterface[]
 
     const recipientInfo = { name, address1, address2, phone, id } as RecipientInterface
-    const location = `https://s3.us-east-2.amazonaws.com/cjwinfield/recipient/${invoiceNum}.pdf`
+    const fileName = `${recipientInfo.name}-${getCurrentMonth()}-${invoiceNum}`
+    const location = `https://s3.us-east-2.amazonaws.com/cjwinfield/recipient/${fileName}.pdf`
 
     const document = {
       invoiceNum,
       lineItems,
       recipientInfo,
       location,
+      fileName,
       createdOn: new Date(),
     }
 
