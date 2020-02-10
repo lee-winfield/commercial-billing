@@ -18,12 +18,18 @@ import {
   GridTile, GridList,
 } from '@rmwc/grid-list';
 import '@material/grid-list/dist/mdc.grid-list.css';
-import { sortBy } from 'lodash'
+import { sortBy, isEmpty } from 'lodash'
+import { sendEmail } from '../helpers/sendEmail';
+import { getEmailAddrByRecipientId } from '../helpers/getEmailAddrByRecipientId';
+import { getCurrentMonth } from '../helpers/getCurrentMonth';
 const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
   const { bill } = props
-  const { invoiceNum, location, recipientInfo, createdOn } = bill
+  const { invoiceNum, location, recipientInfo, createdOn, fileName } = bill
+
+  const recipientEmail = getEmailAddrByRecipientId(recipientInfo.id)
+  const subject = `${getCurrentMonth()} Billing`
 
   return (
     <GridTile style={{ width: '300px' }}>
@@ -51,15 +57,19 @@ const BillCard: React.SFC<any> = (props) => {
         </div>
         <div style={{ padding: '0 1rem 1rem 1rem' }}>
           <CardActionButtons>
-            <LinkButton to={`/billing/view/${invoiceNum}`} icon='visibility' label='View' />
+            <LinkButton to={`/billing/view/${invoiceNum}`} icon='visibility' label='' />
             <CardActionButton href={location} onClick={e => {e.stopPropagation()}}>
               <Button
                 icon="cloud_download"
-                label="Download"
                 tag='a'
                 href={location}
               />
             </CardActionButton>
+            <Button
+              onClick={e => sendEmail(`${fileName}.pdf`, recipientEmail, subject)}
+              icon="email"
+              disabled={isEmpty(fileName)}
+            />
           </CardActionButtons>
         </div>
       </Card>

@@ -34,7 +34,6 @@ interface BillSourceFormProps {
 
 const BillSourceInputs = ({ billSource, setFieldValue, values }: BillSourceInputsProps) => {
   const { id, serviceDate, name, included, amount } = billSource
-  console.log({billSource})
 
   const index = findIndex(values.sources, ['id', id])
   const updateAllocations = () => {
@@ -67,7 +66,6 @@ const BillSourceInputs = ({ billSource, setFieldValue, values }: BillSourceInput
   }
   const setAmount = (value: number) => {
     setFieldValue(`sources[${index}].amount`, value)
-    console.log(value)
   }
 
   return (

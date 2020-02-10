@@ -12,6 +12,7 @@ export interface RecipientInterface {
   name: string;
   address1: string;
   address2: string;
+  enail: string
   phone: string;
   included: boolean;
   defaultSourceIds: number[];
