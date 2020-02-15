@@ -2,37 +2,55 @@ import * as React from 'react'
 const { useState } = React
 
 export interface EmailDialogStateInterface {
-  dialogOpen: boolean
-  sender: () => void
+  open: boolean,
+  fileName: string,
+  recipient: string,
+  subject: string,
 }
 export interface EmailDialogStateModifiersInterface {
   closeDialog: () => void
-  openDialog: (sendFunc: () => void) => void
+  openDialog: (fileName: string, recipient: string, subject: string) => void
 }
 
 export const EmailDialogState = React.createContext<EmailDialogStateInterface>({
-  dialogOpen: false,
-  sender: () => null,
+  open: false,
+  fileName: '',
+  recipient: '',
+  subject: '',
 })
+
 export const EmailDialogStateModifiers = React.createContext<EmailDialogStateModifiersInterface>({
   closeDialog: () => null,
-  openDialog: (sendFunc: () => void) => null,
+  openDialog: (fileName: string, recipient: string, subject: string) => null,
 })
 
 const EmailDialogContextProvider: React.SFC<any> = (props: any) => {
-  const [ dialogOpen, setDialogOpen ] = useState<boolean>(false)
-  const [ sender, setSender ] = useState<() => void>(() => null)
+  const [dialog, setDialog] = useState<EmailDialogStateInterface>({
+    open: false,
+    fileName: '',
+    recipient: '',
+    subject: '',
+  })
+
   const closeDialog = () => {
-    setDialogOpen(false)
-    setSender(() => null)
+    setDialog({
+      open: false,
+      fileName: '',
+      recipient: '',
+      subject: '',
+    })
   }
-  const openDialog = (sendFunc: () => void) => {
-    setDialogOpen(true)
-    setSender(() => sendFunc)
+  const openDialog = (fileName: string, recipient: string, subject: string) => {
+    setDialog({
+      open: true,
+      fileName,
+      recipient,
+      subject,
+    })
   }
 
   return (
-    <EmailDialogState.Provider value={{ dialogOpen, sender }}>
+    <EmailDialogState.Provider value={dialog}>
       <EmailDialogStateModifiers.Provider value={{ closeDialog, openDialog }}>
         {props.children}
       </EmailDialogStateModifiers.Provider>
