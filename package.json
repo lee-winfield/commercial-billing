@@ -6,6 +6,7 @@
     "@rmwc/button": "^5.1.8",
     "@rmwc/card": "^5.1.8",
     "@rmwc/data-table": "^5.1.8",
+    "@rmwc/dialog": "^5.7.2",
     "@rmwc/fab": "^5.1.8",
     "@rmwc/grid": "^5.1.8",
     "@rmwc/grid-list": "^5.1.8",

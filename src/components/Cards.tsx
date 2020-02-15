@@ -22,14 +22,17 @@ import { sortBy, isEmpty } from 'lodash'
 import { sendEmail } from '../helpers/sendEmail';
 import { getEmailAddrByRecipientId } from '../helpers/getEmailAddrByRecipientId';
 import { getCurrentMonth } from '../helpers/getCurrentMonth';
+import { EmailDialogStateModifiers } from '../context/EmailDialogContextProvider';
 const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
   const { bill } = props
   const { invoiceNum, location, recipientInfo, createdOn, fileName } = bill
+  const { openDialog } = useContext(EmailDialogStateModifiers)
 
   const recipientEmail = getEmailAddrByRecipientId(recipientInfo.id)
   const subject = `${getCurrentMonth()} Billing`
+  const sender = sendEmail(`${fileName}.pdf`, recipientEmail, subject)
 
   return (
     <GridTile style={{ width: '300px' }}>
@@ -66,7 +69,7 @@ const BillCard: React.SFC<any> = (props) => {
               />
             </CardActionButton>
             <Button
-              onClick={e => sendEmail(`${fileName}.pdf`, recipientEmail, subject)}
+              onClick={e => openDialog(sender)}
               icon="email"
               disabled={isEmpty(fileName)}
             />
