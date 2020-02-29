@@ -21,16 +21,20 @@ import '@material/grid-list/dist/mdc.grid-list.css';
 import { sortBy, isEmpty } from 'lodash'
 import { getEmailAddrByRecipientId } from '../helpers/getEmailAddrByRecipientId';
 import { getCurrentMonth } from '../helpers/getCurrentMonth';
-import { EmailDialogStateModifiers } from '../context/EmailDialogContextProvider';
+import { useCountDispatch, OPEN_DIALOG } from '../context/EmailDialogContextProvider';
 const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
   const { bill } = props
-  const { invoiceNum, location, recipientInfo, createdOn, fileName } = bill
-  const { openDialog } = useContext(EmailDialogStateModifiers)
+  const { invoiceNum, location, recipientInfo, createdOn, fileName, emailSent } = bill
+  const countDispatch = useCountDispatch()
 
-  const recipientEmail = getEmailAddrByRecipientId(recipientInfo.id)
-  const subject = `${getCurrentMonth()} Billing`
+  const openDialog = () => countDispatch({
+    type: OPEN_DIALOG,
+    fileName: `${fileName}.pdf`,
+    recipient: getEmailAddrByRecipientId(recipientInfo.id),
+    subject: `${getCurrentMonth()} Billing`,
+  })
 
   return (
     <GridTile style={{ width: '300px' }}>
@@ -67,9 +71,9 @@ const BillCard: React.SFC<any> = (props) => {
               />
             </CardActionButton>
             <Button
-              onClick={e => openDialog(`${fileName}.pdf`, recipientEmail, subject)}
+              onClick={openDialog}
               icon="email"
-              disabled={isEmpty(fileName)}
+              disabled={isEmpty(fileName) || emailSent }
             />
           </CardActionButtons>
         </div>

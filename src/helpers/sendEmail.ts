@@ -5,5 +5,6 @@ export const sendEmail = async (fileName: string, recipient: string, subject: st
   const body = {
     Body: JSON.stringify({ fileName, recipient, subject }),
   }
+
   await axios.post(url, body)
 }
