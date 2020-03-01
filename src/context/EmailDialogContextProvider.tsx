@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 
-export const CLOSE_DIALOG = 'CLOSE_DIALOG'
-export const OPEN_DIALOG = 'OPEN_DIALOG'
+export const CLOSE_DIALOG_ACTION = 'CLOSE_DIALOG_ACTION'
+export const OPEN_DIALOG_ACTION = 'OPEN_DIALOG_ACTION'
 
 export interface EmailDialogState {
   open: boolean,
@@ -30,10 +30,10 @@ const EmailDialogDispatch = React.createContext<React.Dispatch<EmailDialogAction
 const EmailDialogContextProvider: React.SFC<any> = (props: any) => {
   const reducer = (state: EmailDialogState, action: EmailDialogAction): EmailDialogState => {
     switch (action.type) {
-      case CLOSE_DIALOG: {
+      case CLOSE_DIALOG_ACTION: {
         return initialState
       }
-      case OPEN_DIALOG: {
+      case OPEN_DIALOG_ACTION: {
         const { fileName, recipient, subject } = action
 
         return {

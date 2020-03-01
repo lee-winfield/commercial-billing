@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { TablePreview } from './Submission'
+import { TablePreview } from './BillingForm/Submission'
 import { LinkButton } from './LinkButton';
 import { get, find } from 'lodash'
 import { Typography } from '@rmwc/typography';

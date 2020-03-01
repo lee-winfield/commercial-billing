@@ -23,7 +23,7 @@ import {
   GridList,
   GridTile,
 } from '@rmwc/grid-list';
-import { AllocationInterface, RecipientInterface } from '../helpers/getRecipients';
+import { AllocationInterface, RecipientInterface } from '../../helpers/getRecipients';
 
 interface AllocationProps {
   recipientId: number;
@@ -164,7 +164,7 @@ const RecipientForm = ({ values, setFieldValue }: RecipientFormProps) => {
     <GridList>
       {recipients.map(
         recipient => (
-          <GridTile style={{ width: 'fit-content' }}>
+          <GridTile key={recipient.id} style={{ width: 'fit-content' }}>
             <RecipientInputs
               key={recipient.id}
               recipient={recipient}

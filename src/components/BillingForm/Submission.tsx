@@ -11,11 +11,6 @@ import {
 } from '@rmwc/data-table';
 import { Typography } from '@rmwc/typography';
 import { Grid, GridCell } from '@rmwc/grid';
-import '@material/grid-list/dist/mdc.grid-list.css';
-import '@material/layout-grid/dist/mdc.layout-grid.css';
-import '@material/typography/dist/mdc.typography.css';
-import '@rmwc/data-table/data-table.css';
-import '@material/card/dist/mdc.card.css';
 import {
   GridList,
   GridTile,
@@ -23,8 +18,8 @@ import {
 import {
   Card,
 } from '@rmwc/card';
-import { LineItemInterface } from '../helpers/getBills';
-import { DocumentInterface } from '../helpers/formatValuesForDocuments';
+import { LineItemInterface } from '../../helpers/getBills';
+import { DocumentInterface } from '../../helpers/formatValuesForDocuments';
 
 interface LineItemProps {
   lineItem: LineItemInterface;

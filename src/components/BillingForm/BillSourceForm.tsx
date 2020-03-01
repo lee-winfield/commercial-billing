@@ -10,10 +10,10 @@ import {
 } from '@rmwc/data-table';
 import '@rmwc/data-table/data-table.css';
 import { findIndex, filter } from 'lodash'
-import { SourceInterface } from '../helpers/getSources';
-import { RecipientInterface } from '../helpers/getRecipients';
+import { SourceInterface } from '../../helpers/getSources';
+import { RecipientInterface } from '../../helpers/getRecipients';
 // const CurrencyInput = require('react-currency-input');
-import CurrencyInput from './CurrencyInput';
+import CurrencyInput from '../CurrencyInput';
 
 interface BillSourceInputsProps {
   billSource: SourceInterface;

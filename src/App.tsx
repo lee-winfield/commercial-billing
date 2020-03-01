@@ -3,7 +3,7 @@ import './App.css'
 import BillingPage from './components/BillingPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import BillingForm from './components/BillingForm';
+import BillingForm from './components/BillingForm/BillingForm';
 import BillingContextProvider from './context/BillingContextProvider';
 import EmailDialogContextProvider from './context/EmailDialogContextProvider';
 import LandingPage from './components/LandingPage';
