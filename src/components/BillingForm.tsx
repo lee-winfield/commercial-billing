@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import { Typography } from '@rmwc/typography';
@@ -15,11 +15,10 @@ import validate from '../helpers/validate';
 import { isEmpty } from  'lodash'
 import getRecipients, { RecipientInterface } from '../helpers/getRecipients';
 import getSources, { SourceInterface } from '../helpers/getSources';
-import { BillingContext, BillingContextInterface } from '../context/BillingContextProvider';
 import getNextInvoiceNum from '../helpers/getNextInvoiceNum';
 import { LinkButton } from './LinkButton';
 import { Prompt, Redirect } from 'react-router-dom'
-const { useState, useEffect, useContext } = React
+import { useBillingState, useBillFetcher } from '../context/BillingContextProvider';
 
 interface StepperProps {
   values: any;
@@ -45,7 +44,8 @@ const Stepper = ({ values, errors, setFieldValue, step }: StepperProps) => {
 }
 
 const BillingForm: React.SFC<any> = (props) => {
-  const { bills, refreshBills } = useContext<BillingContextInterface>(BillingContext)
+  const fetchBills = useBillFetcher()
+  const { bills } = useBillingState()
   const [ step, setStep ] = useState<number>(1)
   const [ recipients, setRecipients ] = useState<RecipientInterface[]>([])
   const [ sources, setSources ] = useState<SourceInterface[]>([])
@@ -109,7 +109,7 @@ const BillingForm: React.SFC<any> = (props) => {
       await axios.post(url, body)
     })
 
-    refreshBills()
+    fetchBills()
 
     if (isEmpty(isValid)) {
       actions.resetForm()

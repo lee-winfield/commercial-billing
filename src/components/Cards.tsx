@@ -10,7 +10,6 @@ import {
   CardActionButtons,
 } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
-import { BillingContext } from '../context/BillingContextProvider';
 import { Button } from '@rmwc/button'
 import '@rmwc/icon/icon.css';
 import { LinkButton } from './LinkButton';
@@ -22,7 +21,7 @@ import { sortBy, isEmpty } from 'lodash'
 import { getEmailAddrByRecipientId } from '../helpers/getEmailAddrByRecipientId';
 import { getCurrentMonth } from '../helpers/getCurrentMonth';
 import { useEmailDialogDispatch, OPEN_DIALOG } from '../context/EmailDialogContextProvider';
-const { useContext } = React
+import { useBillingState } from '../context/BillingContextProvider';
 
 const BillCard: React.SFC<any> = (props) => {
   const { bill } = props
@@ -83,7 +82,7 @@ const BillCard: React.SFC<any> = (props) => {
 }
 
 const Cards: React.SFC = (props) => {
-  const { bills } = useContext(BillingContext)
+  const { bills } = useBillingState()
   const sortedBills = sortBy(bills, (bill) => - bill.invoiceNum)
 
   return (

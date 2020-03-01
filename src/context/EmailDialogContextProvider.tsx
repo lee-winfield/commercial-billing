@@ -1,5 +1,4 @@
-import React from 'react'
-const { useReducer } = React
+import React, { useReducer } from 'react'
 
 export const CLOSE_DIALOG = 'CLOSE_DIALOG'
 export const OPEN_DIALOG = 'OPEN_DIALOG'

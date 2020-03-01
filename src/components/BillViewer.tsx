@@ -2,12 +2,11 @@ import * as React from 'react'
 import { TablePreview } from './Submission'
 import { LinkButton } from './LinkButton';
 import { get, find } from 'lodash'
-import { BillingContext } from '../context/BillingContextProvider';
 import { Typography } from '@rmwc/typography';
 import { Grid, GridCell } from '@rmwc/grid';
 import '@material/layout-grid/dist/mdc.layout-grid.css';
 import '@material/typography/dist/mdc.typography.css';
-const { useContext } = React
+import { useBillingState } from '../context/BillingContextProvider';
 
 interface BillViewerProps {
 
@@ -15,7 +14,7 @@ interface BillViewerProps {
 
 export const BillViewer = (props: BillViewerProps) => {
   const invoiceNum = get(props, 'match.params.invoiceNum', null)
-  const { bills } = useContext(BillingContext)
+  const { bills } = useBillingState()
   const bill = find(bills, (bill) => bill.invoiceNum === Number(invoiceNum)) || null
 
   return (
