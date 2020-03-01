@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, Dispatch } from 'react'
 import { DocumentInterface } from '../helpers/formatValuesForDocuments'
 import getBills from '../helpers/getBills'
 
@@ -10,7 +10,7 @@ export const FETCHING_STATUS = 'FETCHING_STATUS'
 export const SUCCESS_STATUS = 'SUCCESS_STATUS'
 export const ERROR_STATUS = 'ERROR_STATUS'
 
-export interface BillingState {
+export interface BillingStateInterface {
   status: string | undefined;
   bills: DocumentInterface[] | undefined;
 }
@@ -22,11 +22,11 @@ export interface BillingAction {
 
 const initialState = { bills: undefined, status: undefined }
 
-const BillingState = React.createContext<BillingState>(initialState)
+const BillingState = React.createContext<BillingStateInterface>(initialState)
 const BillingDispatch = React.createContext<React.Dispatch<BillingAction> | undefined>(undefined)
 
 const BillingContextProvider: React.SFC<any> = (props: any) => {
-  const reducer = (state: BillingState, action: BillingAction): BillingState => {
+  const reducer = (state: BillingStateInterface, action: BillingAction): BillingStateInterface => {
     switch (action.type) {
       case FETCHING_BILLS_ACTION: {
         return { bills: undefined, status: FETCHING_STATUS }
@@ -54,7 +54,7 @@ const BillingContextProvider: React.SFC<any> = (props: any) => {
   )
 }
 
-export const useBillingState = () => {
+export const useBillingState = (): BillingStateInterface => {
   const context = React.useContext(BillingState)
   if (context === undefined) {
     throw new Error('useBillingState must be used within a BillingContextProvider')
@@ -62,7 +62,7 @@ export const useBillingState = () => {
   return context
 }
 
-export const useBillingDispatch = () => {
+export const useBillingDispatch = (): Dispatch<BillingAction> => {
   const context = React.useContext(BillingDispatch)
   if (context === undefined) {
     throw new Error('useBillingDispatch must be used within a BillingContextProvider')
