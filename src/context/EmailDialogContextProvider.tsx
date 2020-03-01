@@ -26,10 +26,10 @@ const initialState = {
 }
 
 const EmailDialogState = React.createContext<EmailDialogState>(initialState)
-const EmailDialogStateDispatch = React.createContext<React.Dispatch<EmailDialogAction> | undefined>(undefined)
+const EmailDialogDispatch = React.createContext<React.Dispatch<EmailDialogAction> | undefined>(undefined)
 
 const EmailDialogContextProvider: React.SFC<any> = (props: any) => {
-  const emailReducer = (state: EmailDialogState, action: EmailDialogAction): EmailDialogState => {
+  const reducer = (state: EmailDialogState, action: EmailDialogAction): EmailDialogState => {
     switch (action.type) {
       case CLOSE_DIALOG: {
         return initialState
@@ -50,29 +50,29 @@ const EmailDialogContextProvider: React.SFC<any> = (props: any) => {
     }
   }
 
-  const [state, dispatch] = useReducer(emailReducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
     <EmailDialogState.Provider value={state}>
-      <EmailDialogStateDispatch.Provider value={dispatch}>
+      <EmailDialogDispatch.Provider value={dispatch}>
         {props.children}
-      </EmailDialogStateDispatch.Provider>
+      </EmailDialogDispatch.Provider>
     </EmailDialogState.Provider>
   )
 }
 
-export const useDialogState = () => {
+export const useEmailDialogState = () => {
   const context = React.useContext(EmailDialogState)
   if (context === undefined) {
-    throw new Error('useCountState must be used within a CountProvider')
+    throw new Error('useEmailDialogState must be used within a EmailDialogContextProvider')
   }
   return context
 }
 
-export const useCountDispatch = () => {
-  const context = React.useContext(EmailDialogStateDispatch)
+export const useEmailDialogDispatch = () => {
+  const context = React.useContext(EmailDialogDispatch)
   if (context === undefined) {
-    throw new Error('useCountDispatch must be used within a CountProvider')
+    throw new Error('useEmailDialogDispatch must be used within a EmailDialogContextProvider')
   }
   return context
 }

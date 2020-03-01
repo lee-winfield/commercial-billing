@@ -1,11 +1,11 @@
 import React from 'react'
-import { useDialogState, useCountDispatch, CLOSE_DIALOG } from '../context/EmailDialogContextProvider'
+import { useEmailDialogState, useEmailDialogDispatch, CLOSE_DIALOG } from '../context/EmailDialogContextProvider'
 import { Dialog, DialogTitle, DialogContent, DialogActions, DialogButton } from  '@rmwc/dialog'
 import { sendEmail } from '../helpers/sendEmail'
 
 export const EmailDialog = () => {
-  const { open, fileName, recipient, subject } = useDialogState()
-  const countDispatch = useCountDispatch()
+  const { open, fileName, recipient, subject } = useEmailDialogState()
+  const countDispatch = useEmailDialogDispatch()
   const closeDialog = () => countDispatch({
     type: CLOSE_DIALOG,
     fileName: '',

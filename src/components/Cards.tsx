@@ -21,13 +21,13 @@ import '@material/grid-list/dist/mdc.grid-list.css';
 import { sortBy, isEmpty } from 'lodash'
 import { getEmailAddrByRecipientId } from '../helpers/getEmailAddrByRecipientId';
 import { getCurrentMonth } from '../helpers/getCurrentMonth';
-import { useCountDispatch, OPEN_DIALOG } from '../context/EmailDialogContextProvider';
+import { useEmailDialogDispatch, OPEN_DIALOG } from '../context/EmailDialogContextProvider';
 const { useContext } = React
 
 const BillCard: React.SFC<any> = (props) => {
   const { bill } = props
   const { invoiceNum, location, recipientInfo, createdOn, fileName, emailSent } = bill
-  const countDispatch = useCountDispatch()
+  const countDispatch = useEmailDialogDispatch()
 
   const openDialog = () => countDispatch({
     type: OPEN_DIALOG,
