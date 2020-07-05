@@ -62,11 +62,11 @@ const BillCard: React.SFC<any> = (props) => {
                 href={location}
               />
             </CardActionButton>
-            <Button
+            {/* <Button
               onClick={openDialog}
               icon="email"
               disabled={isEmpty(fileName) || emailSent }
-            />
+            /> */}
           </CardActionButtons>
         </div>
       </Card>
